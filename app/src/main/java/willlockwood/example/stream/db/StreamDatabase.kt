@@ -16,7 +16,7 @@ import willlockwood.example.stream.model.Tag
 
 @Database(
     entities = [Stream::class, Tag::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {
@@ -39,6 +39,7 @@ abstract class StreamDatabase : RoomDatabase() {
                     StreamDatabase::class.java,
                     "stream_database")
                     .addCallback(StreamDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 return instance
@@ -71,11 +72,6 @@ abstract class StreamDatabase : RoomDatabase() {
             for (text in aboutStreams) {
                 streamDao.insertAboutStream(Stream("About", text))
             }
-
         }
     }
-
-
-
-
 }

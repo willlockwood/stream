@@ -1,13 +1,11 @@
 package willlockwood.example.stream.model
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import willlockwood.example.stream.UriConverters
 
 @Entity(
     tableName = "stream_table",
+    indices = [Index(value = ["tagName"], name = "tagName")],
     foreignKeys = [ForeignKey(
         entity = Tag::class,
         parentColumns = arrayOf("name"),

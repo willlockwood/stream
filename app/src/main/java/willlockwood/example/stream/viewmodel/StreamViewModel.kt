@@ -23,9 +23,9 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     private var filteredStreams: LiveData<List<Stream>>
 
     init {
-        filteredStreams = Transformations.switchMap(currentTag) { tag -> repository.getStreamsByTag(tag) }
-
         viewModelScope.launch(Dispatchers.IO) { currentTag.postValue(getTagByName("All")) }
+
+        filteredStreams = Transformations.switchMap(currentTag) { tag -> repository.getStreamsByTag(tag) }
     }
 
     private val tags: LiveData<List<Tag>> by lazy { repository.getAllTags() }
