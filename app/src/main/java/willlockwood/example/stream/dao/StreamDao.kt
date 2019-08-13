@@ -1,10 +1,7 @@
 package willlockwood.example.stream.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import willlockwood.example.stream.model.Stream
 
 @Dao
@@ -24,6 +21,9 @@ interface StreamDao {
 
     @Query("DELETE FROM stream_table")
     suspend fun deleteAll()
+
+    @Delete
+    suspend fun deleteStreams(vararg streams: Stream)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAboutStream(stream: Stream)

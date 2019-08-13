@@ -26,6 +26,7 @@ class StreamListAdapter internal constructor(
     inner class StreamViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val streamText: TextView = itemView.findViewById(R.id.text)
         val recycler: RecyclerView = itemView.findViewById(R.id.recycler)
+//        var deleteable: Boolean? = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
@@ -39,6 +40,8 @@ class StreamListAdapter internal constructor(
         val urisList: List<String>? = stream.imageUris?.split(", ")
 
         holder.recycler.visibility = View.GONE
+
+//        holder.deleteable = stream.deleteable
 
         // Add images if there are images to add
         if (urisList != null) {
@@ -62,6 +65,13 @@ class StreamListAdapter internal constructor(
         holder.streamText.text = stream.text
     }
 
+    internal fun isStreamDeleteableAtPosition(position: Int): Boolean {
+        val stream = this.streams[position]
+        return stream.deleteable
+    }
+
+    internal fun removeAt(index: Int) { viewModel.deleteStream(this.streams[index]) }
+
     internal fun setStreams(streams: List<Stream>) { updateStreams(streams) }
 
     private fun updateStreams(s: List<Stream>) {
@@ -71,7 +81,7 @@ class StreamListAdapter internal constructor(
         this.streams = s
 
         if (this.streams.isEmpty()) {
-            val defaultStream = Stream(viewModel.getCurrentTag().value!!.name, "Stream something!")
+            val defaultStream = Stream(viewModel.getCurrentTag().value!!.name, "Stream something!", false)
             this.streams = listOf(defaultStream)
         }
 

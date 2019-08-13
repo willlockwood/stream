@@ -105,7 +105,7 @@ class StreamsInput : Fragment() {
             val streamText = streamInputEditText.editableText.toString()
 
             if (streamIsReadyToUpload(streamText)) {
-                val newStream = Stream(viewModel.getCurrentTag().value!!.name, streamText)
+                val newStream = Stream(viewModel.getCurrentTag().value!!.name, streamText, true)
                 newStream.imageUris = viewModel.getThumbnailUris().value?.joinToString(", ")
                 viewModel.insertStream(newStream)
 

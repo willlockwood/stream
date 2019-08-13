@@ -43,6 +43,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     fun updateTags(tags: List<Tag>) = viewModelScope.launch(Dispatchers.IO) { repository.updateTags(tags) }
 
     fun deleteTag(tag: Tag) = viewModelScope.launch(Dispatchers.IO) { repository.deleteTags(tag) }
+    fun deleteStream(stream: Stream) = viewModelScope.launch(Dispatchers.IO) { repository.deleteStreams(stream) }
 
     fun getThumbnailUris() = thumbnailUris
     fun addThumbnailUris(uri: String) {

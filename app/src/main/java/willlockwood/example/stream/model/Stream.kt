@@ -16,6 +16,7 @@ import willlockwood.example.stream.UriConverters
 data class Stream(
     var tagName: String,
     var text: String,
+    var deleteable: Boolean,
 
     @TypeConverters(UriConverters::class)
     var imageUris: String? = null

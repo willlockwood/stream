@@ -20,6 +20,8 @@ class StreamRepository(
     suspend fun updateTags(tags: List<Tag>) { tagDao.updateTags(tags) }
     suspend fun deleteTags(vararg tags: Tag) = tagDao.deleteTags(*tags)
 
+    suspend fun deleteStreams(vararg streams: Stream) = streamDao.deleteStreams(*streams)
+
     fun getStreamsByTag(tag: Tag): LiveData<List<Stream>> {
         return when (tag.name) {
             "All" -> streamDao.getAllStreams()
