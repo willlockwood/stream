@@ -38,4 +38,8 @@ class StreamRepository(
         }
         return tagDao.insert(newTag)
     }
+
+//    suspend fun insertNewUser(user: StreamUser) { userDao.insert(user) }
+//
+//    fun getUsers() { userDao.getUsers() }
 }

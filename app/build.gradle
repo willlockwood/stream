@@ -77,6 +77,11 @@ dependencies {
 
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
 
+    // Twitter
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+
+
 //    implementation 'com.inthecheesefactory.thecheeselibrary:stated-fragment:0.9.3'
 
 }

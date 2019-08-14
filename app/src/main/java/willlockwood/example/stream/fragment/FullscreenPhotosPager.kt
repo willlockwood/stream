@@ -12,7 +12,7 @@ import willlockwood.example.stream.adapter.FullscreenPhotosPagerAdapter
 class FullscreenPhotosPager : Fragment() {
 
     private lateinit var uriList: ArrayList<String>
-        private var startPosition: Int? = null
+    private var startPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

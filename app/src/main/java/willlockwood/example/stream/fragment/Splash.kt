@@ -21,9 +21,9 @@ class Splash : Fragment() {
         val stream = (activity as AppCompatActivity).findViewById<ImageButton>(R.id.stream)
 
         stream.setOnClickListener{
-//            findNavController().navigate(R.id.action_splash_to_login, null, null, null)
-            findNavController().navigate(R.id.action_splash_to_streams, null, null, null)
+//            findNavController().navigate(R.id.action_splash_to_streams, null, null, null)
+            findNavController().navigate(R.id.action_splash_to_login, null, null, null)
         }
-//        findNavController().navigate(R.id.action_splash_to_streams, null, null, null)
+        findNavController().navigate(R.id.action_splash_to_login, null, null, null)
     }
 }

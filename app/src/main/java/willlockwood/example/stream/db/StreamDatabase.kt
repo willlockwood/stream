@@ -11,18 +11,21 @@ import kotlinx.coroutines.launch
 import willlockwood.example.stream.UriConverters
 import willlockwood.example.stream.dao.StreamDao
 import willlockwood.example.stream.dao.TagDao
+import willlockwood.example.stream.dao.UserDao
 import willlockwood.example.stream.model.Stream
+import willlockwood.example.stream.model.StreamUser
 import willlockwood.example.stream.model.Tag
 
 @Database(
-    entities = [Stream::class, Tag::class],
-    version = 3
+    entities = [Stream::class, Tag::class, StreamUser::class],
+    version = 5
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {
 
     abstract fun streamDao(): StreamDao
     abstract fun tagDao(): TagDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
@@ -54,14 +57,15 @@ abstract class StreamDatabase : RoomDatabase() {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
                     scope.launch {
-                        populateDatabase(database.streamDao(), database.tagDao())
+                        populateDatabase(database.streamDao(), database.tagDao(), database.userDao())
                     }
                 }
             }
         }
-        suspend fun populateDatabase(streamDao: StreamDao, tagDao: TagDao) {
+        suspend fun populateDatabase(streamDao: StreamDao, tagDao: TagDao, userDao: UserDao) {
             streamDao.deleteDefaultStreams()
             tagDao.deleteDefaultTags()
+            userDao.insert(StreamUser("guest", "guest", "", "stream"))
 
             tagDao.insertDefaultTag(Tag("All"))
             tagDao.insertDefaultTag(Tag("About"))

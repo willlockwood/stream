@@ -14,10 +14,12 @@ import willlockwood.example.stream.R
 import willlockwood.example.stream.diffutil.StreamDiffCallback
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.StreamViewModel
+import willlockwood.example.stream.viewmodel.TwitterViewModel
 
 class StreamListAdapter internal constructor(
     private val context: Context,
-    private val viewModel: StreamViewModel
+    private val viewModel: StreamViewModel,
+    private val userVM: TwitterViewModel
 ) : RecyclerView.Adapter<StreamListAdapter.StreamViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -40,8 +42,6 @@ class StreamListAdapter internal constructor(
         val urisList: List<String>? = stream.imageUris?.split(", ")
 
         holder.recycler.visibility = View.GONE
-
-//        holder.deleteable = stream.deleteable
 
         // Add images if there are images to add
         if (urisList != null) {

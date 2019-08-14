@@ -15,12 +15,14 @@ import willlockwood.example.stream.R
 import willlockwood.example.stream.SwipeToDeleteCallback
 import willlockwood.example.stream.adapter.StreamListAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
+import willlockwood.example.stream.viewmodel.TwitterViewModel
 
 
 class StreamsRecycler : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var viewModel: StreamViewModel
+    lateinit var userVM: TwitterViewModel
     lateinit var streamAdapter: StreamListAdapter
     lateinit var layoutManager: LinearLayoutManager
 
@@ -32,13 +34,13 @@ class StreamsRecycler : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setUpViewModel()
+        setUpViewModels()
         setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-        streamAdapter = StreamListAdapter(this.context!!, viewModel)
+        streamAdapter = StreamListAdapter(this.context!!, viewModel, userVM)
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = streamAdapter
@@ -58,7 +60,9 @@ class StreamsRecycler : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun setUpViewModel() {
+    private fun setUpViewModels() {
+        userVM = ViewModelProviders.of(activity!!).get(TwitterViewModel::class.java)
+
         viewModel = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
         viewModel.getFilteredStreams().observe(viewLifecycleOwner, Observer {
             streamAdapter.setStreams(it)

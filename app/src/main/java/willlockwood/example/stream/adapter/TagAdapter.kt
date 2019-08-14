@@ -36,6 +36,7 @@ class TagAdapter internal constructor(
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val tag = tags[position]
 
+        val currentTag = viewModel.getCurrentTag().value
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (tag == viewModel.getCurrentTag().value) {
                 holder.tagButton.backgroundTintList = context.getColorStateList(R.color.tag_color_black)
