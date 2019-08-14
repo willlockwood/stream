@@ -106,12 +106,6 @@ class StreamsInput : Fragment() {
         } //system OS is < Marshmallow
     }
 
-    private fun observeUser() {
-        userVM.getCurrentUser().observe(this, Observer {
-            Log.i("observe", it.toString())
-        })
-    }
-
     // Disappears the input bar when on an un-modifiable tag (currently, only the "About" tag)
     private fun observeCurrentTag() {
         viewModel.getCurrentTag().observe(viewLifecycleOwner, Observer {
