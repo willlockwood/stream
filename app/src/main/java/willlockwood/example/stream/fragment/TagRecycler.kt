@@ -30,6 +30,7 @@ class TagRecycler : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         add_button.setOnClickListener {
+            viewModel.insertNewTag()
             val bundle = bundleOf("addNewTag" to true)
             findNavController().navigate(R.id.action_streams_to_tagEdit, bundle, null, null)
         }
