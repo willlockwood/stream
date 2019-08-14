@@ -44,10 +44,11 @@ class TagAdapter internal constructor(
             } else {
                 holder.tagButton.backgroundTintList = context.getColorStateList(R.color.tag_color)
                 holder.tagButton.setTextColor(ContextCompat.getColor(context, R.color.tagNotClickedText))
+                holder.tagButton.setOnClickListener { viewModel.setCurrentTag(tag) }
             }
         }
         holder.tagButton.text = tag.name
-        holder.tagButton.setOnClickListener { viewModel.setCurrentTag(tag) }
+//        holder.tagButton.setOnClickListener { viewModel.setCurrentTag(tag) }
     }
 
     internal fun setTags(tags: List<Tag>) { updateTags(tags) }

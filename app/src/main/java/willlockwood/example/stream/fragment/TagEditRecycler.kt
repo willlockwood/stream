@@ -45,6 +45,7 @@ class TagEditRecycler : Fragment() {
         doneButton.setOnClickListener {
             val tags = tagEditAdapter.getTags()
             viewModel.updateTags(tags)
+            viewModel.setCurrentTag(tags[0])
             findNavController().navigate(R.id.action_tagEdit_to_streams, null, null, null)
         }
     }
