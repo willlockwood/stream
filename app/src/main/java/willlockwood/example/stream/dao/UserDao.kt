@@ -13,6 +13,9 @@ interface UserDao {
     @Query("SELECT * from users")
     fun getUsers(): LiveData<List<User>>
 
+    @Query("SELECT * from users WHERE source = :source LIMIT 1")
+    fun getUserBySource(source: String): LiveData<User>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User): Long
 

@@ -11,4 +11,6 @@ class UserRepository(
     suspend fun insertNewUser(user: User) { userDao.insert(user) }
 
     fun getUsers(): LiveData<List<User>> = userDao.getUsers()
+
+    fun getUserBySource(source: String): LiveData<User> = userDao.getUserBySource(source)
 }

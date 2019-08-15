@@ -2,7 +2,9 @@ package willlockwood.example.stream
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import willlockwood.example.stream.viewmodel.SpeechRecognizerViewModel
@@ -20,6 +22,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setUpViewModels()
+
+        userVM.getTwitterUser().observe(this, Observer {
+            if (it == null) {
+                Log.i("mainActivity", "null")
+            } else {
+                Log.i("mainActivity", it.toString())
+            }
+
+        })
     }
 
     private fun setUpViewModels() {

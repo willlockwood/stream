@@ -2,6 +2,7 @@ package willlockwood.example.stream.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 //    private val users: LiveData<List<User>> by lazy { repository.getUsers() }
     private fun getAllUsers() = repository.getUsers()
+
+    fun getTwitterUser(): LiveData<User> = repository.getUserBySource("twitter")
+
+    private fun getUserBySource(source: String) = repository.getUserBySource(source)
 
     fun setCurrentUser(user: User) { currentUser.value = user }
     fun getCurrentUser() = currentUser
