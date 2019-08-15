@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tags",
-    indices = [Index(value = ["name"], name = "name", unique = true)]
+    indices = [Index(value = ["name"], name = "stream_tag", unique = true)]
 )
 data class Tag (
     var name: String,

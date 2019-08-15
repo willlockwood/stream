@@ -13,12 +13,12 @@ import willlockwood.example.stream.dao.StreamDao
 import willlockwood.example.stream.dao.TagDao
 import willlockwood.example.stream.dao.UserDao
 import willlockwood.example.stream.model.Stream
-import willlockwood.example.stream.model.User
 import willlockwood.example.stream.model.Tag
+import willlockwood.example.stream.model.User
 
 @Database(
     entities = [Stream::class, Tag::class, User::class],
-    version = 5
+    version = 7
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {

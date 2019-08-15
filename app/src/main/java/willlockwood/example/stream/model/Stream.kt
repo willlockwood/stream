@@ -5,16 +5,16 @@ import willlockwood.example.stream.UriConverters
 
 @Entity(
     tableName = "streams",
-    indices = [Index(value = ["tagName"], name = "tagName")],
+    indices = [Index(value = ["tag"], name = "tag")],
     foreignKeys = [ForeignKey(
         entity = Tag::class,
         parentColumns = arrayOf("name"),
-        childColumns = arrayOf("tagName"),
+        childColumns = arrayOf("tag"),
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE)]
 )
 data class Stream(
-    var tagName: String,
+    var tag: String,
     var text: String,
     var deleteable: Boolean,
 
