@@ -14,12 +14,12 @@ import willlockwood.example.stream.R
 import willlockwood.example.stream.diffutil.StreamDiffCallback
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.StreamViewModel
-import willlockwood.example.stream.viewmodel.TwitterViewModel
+import willlockwood.example.stream.viewmodel.UserViewModel
 
 class StreamListAdapter internal constructor(
     private val context: Context,
-    private val viewModel: StreamViewModel,
-    private val userVM: TwitterViewModel
+    private val streamVM: StreamViewModel,
+    private val userVM: UserViewModel
 ) : RecyclerView.Adapter<StreamListAdapter.StreamViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -28,7 +28,6 @@ class StreamListAdapter internal constructor(
     inner class StreamViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val streamText: TextView = itemView.findViewById(R.id.text)
         val recycler: RecyclerView = itemView.findViewById(R.id.recycler)
-//        var deleteable: Boolean? = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
@@ -70,7 +69,7 @@ class StreamListAdapter internal constructor(
         return stream.deleteable
     }
 
-    internal fun removeAt(index: Int) { viewModel.deleteStream(this.streams[index]) }
+    internal fun removeAt(index: Int) { streamVM.deleteStream(this.streams[index]) }
 
     internal fun setStreams(streams: List<Stream>) { updateStreams(streams) }
 
@@ -81,7 +80,7 @@ class StreamListAdapter internal constructor(
         this.streams = s
 
         if (this.streams.isEmpty()) {
-            val defaultStream = Stream(viewModel.getCurrentTag().value!!.name, "Stream something!", false)
+            val defaultStream = Stream(streamVM.getCurrentTag().value!!.name, "Stream something!", false)
             this.streams = listOf(defaultStream)
         }
 

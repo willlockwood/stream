@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import willlockwood.example.stream.viewmodel.SpeechRecognizerViewModel
 import willlockwood.example.stream.viewmodel.StreamViewModel
-import willlockwood.example.stream.viewmodel.TwitterViewModel
+import willlockwood.example.stream.viewmodel.UserViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: StreamViewModel
-    private lateinit var userVM: TwitterViewModel
+    private lateinit var streamVM: StreamViewModel
+    private lateinit var userVM: UserViewModel
     private lateinit var speechVM: SpeechRecognizerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewModels() {
-        viewModel = ViewModelProviders.of(this).get(StreamViewModel::class.java)
-        userVM = ViewModelProviders.of(this).get(TwitterViewModel::class.java)
+        streamVM = ViewModelProviders.of(this).get(StreamViewModel::class.java)
+        userVM = ViewModelProviders.of(this).get(UserViewModel::class.java)
         speechVM = ViewModelProviders.of(this).get(SpeechRecognizerViewModel::class.java)
     }
 

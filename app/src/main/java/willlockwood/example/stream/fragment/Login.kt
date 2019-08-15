@@ -15,17 +15,19 @@ import com.twitter.sdk.android.core.models.User
 import kotlinx.android.synthetic.main.fragment_login.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.model.StreamUser
-import willlockwood.example.stream.viewmodel.TwitterViewModel
+import willlockwood.example.stream.viewmodel.UserViewModel
 
 class Login : Fragment() {
 
-    lateinit var twitterViewModel: TwitterViewModel
+    lateinit var userVM: UserViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    private fun setUpViewModel() { twitterViewModel = ViewModelProviders.of(activity!!).get(TwitterViewModel::class.java) }
+    private fun setUpViewModels() {
+        userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
+    }
 
     fun getTwitterUserProfileWthTwitterCoreApi(context: Context, session: TwitterSession) {
         TwitterCore.getInstance().getApiClient(session).accountService
@@ -37,8 +39,8 @@ class Login : Fragment() {
                     val profileImageUrl = result.data.profileImageUrl.replace("_normal", "")
                     val user = StreamUser(name, userName, profileImageUrl, "twitter")
 
-                    twitterViewModel.setCurrentUser(user)
-                    twitterViewModel.insertNewUser(user)
+                    userVM.setCurrentUser(user)
+                    userVM.insertNewUser(user)
                     findNavController().navigate(R.id.action_login_to_streams, null, null, null)
                 }
 
@@ -65,7 +67,7 @@ class Login : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setUpViewModel()
+        setUpViewModels()
 
         twitterSetup(context!!)
 

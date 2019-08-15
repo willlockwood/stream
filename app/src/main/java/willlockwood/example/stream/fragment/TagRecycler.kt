@@ -18,7 +18,7 @@ import willlockwood.example.stream.viewmodel.StreamViewModel
 
 class TagRecycler : Fragment() {
 
-    lateinit var viewModel: StreamViewModel
+    lateinit var streamVM: StreamViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var tagAdapter: TagAdapter
 
@@ -30,28 +30,28 @@ class TagRecycler : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         add_button.setOnClickListener {
-            viewModel.insertNewTag()
+            streamVM.insertNewTag()
             val bundle = bundleOf("addNewTag" to true)
             findNavController().navigate(R.id.action_streams_to_tagEdit, bundle, null, null)
         }
 
-        setUpViewModel()
         setUpRecyclerView()
+        setUpViewModels()
     }
 
     private fun setUpRecyclerView() {
         recyclerView = tag_recycler
-        tagAdapter = TagAdapter(this.context!!, viewModel)
+        tagAdapter = TagAdapter(this.context!!, streamVM)
         recyclerView.adapter = tagAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+    private fun setUpViewModels() {
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
 
-        viewModel.getAllTags().observe(viewLifecycleOwner, Observer { tagAdapter.setTags(it) })
+        streamVM.getAllTags().observe(viewLifecycleOwner, Observer { tagAdapter.setTags(it) })
 
-        viewModel.getCurrentTag().observe(viewLifecycleOwner, Observer {
+        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 tagAdapter.setCurrentTag(it)
             }

@@ -24,13 +24,13 @@ import willlockwood.example.stream.adapter.InputThumbnailsAdapter
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.SpeechRecognizerViewModel
 import willlockwood.example.stream.viewmodel.StreamViewModel
-import willlockwood.example.stream.viewmodel.TwitterViewModel
+import willlockwood.example.stream.viewmodel.UserViewModel
 import java.io.File
 
 class StreamsInput : Fragment() {
 
-    lateinit var viewModel: StreamViewModel
-    lateinit var userVM: TwitterViewModel
+    lateinit var streamVM: StreamViewModel
+    lateinit var userVM: UserViewModel
     lateinit var speechVM: SpeechRecognizerViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var thumbnailAdapter: InputThumbnailsAdapter
@@ -48,23 +48,29 @@ class StreamsInput : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!)[StreamViewModel::class.java]
-        userVM = ViewModelProviders.of(activity!!)[TwitterViewModel::class.java]
-        speechVM = ViewModelProviders.of(activity!!)[SpeechRecognizerViewModel::class.java]
+
+        setUpViewModels()
+
         speechVM.getViewState().observe(viewLifecycleOwner, Observer<SpeechRecognizerViewModel.ViewState>{ viewState ->
             render(viewState)
         })
     }
 
+    private fun setUpViewModels() {
+        streamVM = ViewModelProviders.of(activity!!)[StreamViewModel::class.java]
+        userVM = ViewModelProviders.of(activity!!)[UserViewModel::class.java]
+        speechVM = ViewModelProviders.of(activity!!)[SpeechRecognizerViewModel::class.java]
+    }
+
     private fun setUpRecyclerView() {
         recyclerView = images
-        thumbnailAdapter = InputThumbnailsAdapter(this.context!!, viewModel)
+        thumbnailAdapter = InputThumbnailsAdapter(this.context!!, streamVM)
         recyclerView.adapter = thumbnailAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         thumbnailAdapter.setOnItemClickListener(object : InputThumbnailsAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int, uris: List<String>, uri: String) {
-                viewModel.deleteThumbnailUris(uri)
+                streamVM.deleteThumbnailUris(uri)
             }
         })
     }
@@ -76,7 +82,6 @@ class StreamsInput : Fragment() {
         setUpRecyclerView()
 
         observeCurrentTag()
-//        observeUser()
 
         observeThumbnailUris()
 
@@ -108,7 +113,7 @@ class StreamsInput : Fragment() {
 
     // Disappears the input bar when on an un-modifiable tag (currently, only the "About" tag)
     private fun observeCurrentTag() {
-        viewModel.getCurrentTag().observe(viewLifecycleOwner, Observer {
+        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
             when (it.name) {
                 "About" -> this.view!!.visibility = View.GONE
                 else -> this.view!!.visibility = View.VISIBLE
@@ -119,7 +124,7 @@ class StreamsInput : Fragment() {
 
     // Updates the thumbnail bar UI
     private fun observeThumbnailUris() {
-        viewModel.getThumbnailUris().observe(viewLifecycleOwner, Observer {
+        streamVM.getThumbnailUris().observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty()) {
                 images.visibility = View.GONE
                 thumbnailAdapter.setUris(emptyList())
@@ -134,13 +139,13 @@ class StreamsInput : Fragment() {
         val streamText = streamInputEditText.editableText.toString()
 
         if (streamIsReadyToUpload(streamText)) {
-            val newStream = Stream(viewModel.getCurrentTag().value!!.name, streamText, true)
-            newStream.imageUris = viewModel.getThumbnailUris().value?.joinToString(", ")
-            viewModel.insertStream(newStream)
+            val newStream = Stream(streamVM.getCurrentTag().value!!.name, streamText, true)
+            newStream.imageUris = streamVM.getThumbnailUris().value?.joinToString(", ")
+            streamVM.insertStream(newStream)
 
             streamInputEditText.setText("")
             images.visibility = View.GONE
-            viewModel.clearThumbnailUris()
+            streamVM.clearThumbnailUris()
         }
     }
 
@@ -181,11 +186,11 @@ class StreamsInput : Fragment() {
                 if (clipData != null) {
                     for (i in 0 until clipData.itemCount) {
                         val file: File = getBitmapFile(clipData.getItemAt(i).uri)
-                        viewModel.addThumbnailUris(file.toString())
+                        streamVM.addThumbnailUris(file.toString())
                     }
                 }
             } else {
-                viewModel.addThumbnailUris(data?.data!!.toString())
+                streamVM.addThumbnailUris(data?.data!!.toString())
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
 

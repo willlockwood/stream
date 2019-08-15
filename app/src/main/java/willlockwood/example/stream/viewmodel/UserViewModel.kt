@@ -10,7 +10,7 @@ import willlockwood.example.stream.db.StreamDatabase
 import willlockwood.example.stream.model.StreamUser
 import willlockwood.example.stream.repository.UserRepository
 
-class TwitterViewModel(application: Application) : AndroidViewModel(application) {
+class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     val userDao = StreamDatabase.getDatabase(application, viewModelScope).userDao()
     private val repository = UserRepository(userDao)

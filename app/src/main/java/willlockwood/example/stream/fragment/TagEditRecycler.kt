@@ -19,7 +19,7 @@ import willlockwood.example.stream.viewmodel.StreamViewModel
 
 class TagEditRecycler : Fragment() {
 
-    lateinit var viewModel: StreamViewModel
+    lateinit var streamVM: StreamViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var tagEditAdapter: TagEditAdapter
 //    var
@@ -32,40 +32,37 @@ class TagEditRecycler : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setUpViewModel()
+        setUpViewModels()
         setUpRecyclerView()
 
         val addButton: ImageButton = add_tag_button
         val doneButton: ImageButton = done_button
 
         addButton.setOnClickListener {
-            viewModel.insertNewTag()
+            streamVM.insertNewTag()
         }
 
         doneButton.setOnClickListener {
             val tags = tagEditAdapter.getTags()
-            viewModel.updateTags(tags)
-            viewModel.setCurrentTag(tags[0])
+            streamVM.updateTags(tags)
+            streamVM.setCurrentTag(tags[0])
             findNavController().navigate(R.id.action_tagEdit_to_streams, null, null, null)
         }
     }
 
-    private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+    private fun setUpViewModels() {
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
 
-        viewModel.getAllTags().observe(viewLifecycleOwner, Observer {
+        streamVM.getAllTags().observe(viewLifecycleOwner, Observer {
             tagEditAdapter.setTags(it)
         })
     }
 
     private fun setUpRecyclerView() {
         recyclerView = tag_recycler
-        tagEditAdapter = TagEditAdapter(this.context!!, viewModel)
+        tagEditAdapter = TagEditAdapter(this.context!!, streamVM)
         recyclerView.adapter = tagEditAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
-
-
-
 
 }

@@ -15,14 +15,16 @@ import willlockwood.example.stream.R
 import willlockwood.example.stream.SwipeToDeleteCallback
 import willlockwood.example.stream.adapter.StreamListAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
-import willlockwood.example.stream.viewmodel.TwitterViewModel
-
+import willlockwood.example.stream.viewmodel.UserViewModel
 
 class StreamsRecycler : Fragment() {
 
+    // ViewModels
+    lateinit var streamVM: StreamViewModel
+    lateinit var userVM: UserViewModel
+
+    // Recycler
     lateinit var recyclerView: RecyclerView
-    lateinit var viewModel: StreamViewModel
-    lateinit var userVM: TwitterViewModel
     lateinit var streamAdapter: StreamListAdapter
     lateinit var layoutManager: LinearLayoutManager
 
@@ -40,7 +42,7 @@ class StreamsRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-        streamAdapter = StreamListAdapter(this.context!!, viewModel, userVM)
+        streamAdapter = StreamListAdapter(this.context!!, streamVM, userVM)
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = streamAdapter
@@ -61,10 +63,10 @@ class StreamsRecycler : Fragment() {
     }
 
     private fun setUpViewModels() {
-        userVM = ViewModelProviders.of(activity!!).get(TwitterViewModel::class.java)
+        userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
 
-        viewModel = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
-        viewModel.getFilteredStreams().observe(viewLifecycleOwner, Observer {
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+        streamVM.getFilteredStreams().observe(viewLifecycleOwner, Observer {
             streamAdapter.setStreams(it)
             recyclerView.scrollToPosition(streamAdapter.itemCount - 1)
         })

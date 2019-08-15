@@ -8,20 +8,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import willlockwood.example.stream.R
 import willlockwood.example.stream.viewmodel.StreamViewModel
-import willlockwood.example.stream.viewmodel.TwitterViewModel
+import willlockwood.example.stream.viewmodel.UserViewModel
 
 class Streams : Fragment() {
 
-    lateinit var streamViewModel: StreamViewModel
-    lateinit var userVM: TwitterViewModel
+    lateinit var streamVM: StreamViewModel
+    lateinit var userVM: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpViewModel()
+
+        setUpViewModels()
     }
-    private fun setUpViewModel() {
-        streamViewModel = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
-        userVM = ViewModelProviders.of(activity!!).get(TwitterViewModel::class.java)
+
+    private fun setUpViewModels() {
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+        userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

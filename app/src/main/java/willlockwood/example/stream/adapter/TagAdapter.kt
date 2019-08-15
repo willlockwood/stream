@@ -48,7 +48,7 @@ class TagAdapter internal constructor(
             }
         }
         holder.tagButton.text = tag.name
-//        holder.tagButton.setOnClickListener { viewModel.setCurrentTag(tag) }
+//        holder.tagButton.setOnClickListener { streamVM.setCurrentTag(tag) }
     }
 
     internal fun setTags(tags: List<Tag>) { updateTags(tags) }
