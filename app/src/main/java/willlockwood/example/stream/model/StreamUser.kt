@@ -5,7 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "user_table",
+    tableName = "users",
     indices = [Index(value = ["source"], name = "source", unique = true)]
 )
 data class StreamUser (

@@ -4,7 +4,7 @@ import androidx.room.*
 import willlockwood.example.stream.UriConverters
 
 @Entity(
-    tableName = "stream_table",
+    tableName = "streams",
     indices = [Index(value = ["tagName"], name = "tagName")],
     foreignKeys = [ForeignKey(
         entity = Tag::class,

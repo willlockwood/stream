@@ -7,19 +7,19 @@ import willlockwood.example.stream.model.Stream
 @Dao
 interface StreamDao {
 
-    @Query("SELECT * from stream_table WHERE tagName != 'About' ")
+    @Query("SELECT * from streams WHERE tagName != 'About' ")
     fun getAllStreams(): LiveData<List<Stream>>
 
-    @Query("SELECT * FROM stream_table WHERE tagName == :tagName")
+    @Query("SELECT * FROM streams WHERE tagName == :tagName")
     fun getStreamsByTag(tagName: String): LiveData<List<Stream>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(stream: Stream)
 
-    @Query("DELETE  FROM stream_table WHERE tagName == 'About' ")
+    @Query("DELETE  FROM streams WHERE tagName == 'About' ")
     suspend fun deleteDefaultStreams()
 
-    @Query("DELETE FROM stream_table")
+    @Query("DELETE FROM streams ")
     suspend fun deleteAll()
 
     @Delete

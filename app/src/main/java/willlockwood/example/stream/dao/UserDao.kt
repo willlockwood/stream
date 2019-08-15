@@ -10,7 +10,7 @@ import willlockwood.example.stream.model.StreamUser
 @Dao
 interface UserDao {
 
-    @Query("SELECT * from user_table")
+    @Query("SELECT * from users")
     fun getUsers(): LiveData<List<StreamUser>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
