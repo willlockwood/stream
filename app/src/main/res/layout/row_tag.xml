@@ -7,4 +7,6 @@
         style="@style/TagButton"
         android:text="Button"
         android:id="@+id/tag_button"
-        tools:layout_editor_absoluteX="2dp"/>
+        tools:layout_editor_absoluteX="2dp" android:textAllCaps="false"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorLink="@color/colorAccent"/>
