@@ -29,14 +29,22 @@ class TagRecycler : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        setUpViewModels()
+
+        setUpRecyclerView()
+
+        observeTags()
+
         add_button.setOnClickListener {
             streamVM.insertNewTag()
             val bundle = bundleOf("addNewTag" to true)
             findNavController().navigate(R.id.action_streams_to_tagEdit, bundle, null, null)
         }
+    }
 
-        setUpRecyclerView()
-        setUpViewModels()
+    private fun setUpViewModels() {
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
     }
 
     private fun setUpRecyclerView() {
@@ -46,11 +54,8 @@ class TagRecycler : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setUpViewModels() {
-        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
-
+    private fun observeTags() {
         streamVM.getAllTags().observe(viewLifecycleOwner, Observer { tagAdapter.setTags(it) })
-
         streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 tagAdapter.setCurrentTag(it)
