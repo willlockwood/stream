@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "users",
     indices = [Index(value = ["source"], name = "source", unique = true)]
 )
-data class StreamUser (
+data class User (
     val source: String,
     var name: String,
     var userName: String,

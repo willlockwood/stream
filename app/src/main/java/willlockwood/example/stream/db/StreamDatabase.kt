@@ -13,11 +13,11 @@ import willlockwood.example.stream.dao.StreamDao
 import willlockwood.example.stream.dao.TagDao
 import willlockwood.example.stream.dao.UserDao
 import willlockwood.example.stream.model.Stream
-import willlockwood.example.stream.model.StreamUser
+import willlockwood.example.stream.model.User
 import willlockwood.example.stream.model.Tag
 
 @Database(
-    entities = [Stream::class, Tag::class, StreamUser::class],
+    entities = [Stream::class, Tag::class, User::class],
     version = 5
 )
 @TypeConverters(UriConverters::class)
@@ -65,7 +65,7 @@ abstract class StreamDatabase : RoomDatabase() {
         suspend fun populateDatabase(streamDao: StreamDao, tagDao: TagDao, userDao: UserDao) {
             streamDao.deleteDefaultStreams()
             tagDao.deleteDefaultTags()
-            userDao.insert(StreamUser("guest", "guest", "", "stream"))
+            userDao.insert(User("guest", "guest", "", "stream"))
 
             tagDao.insertDefaultTag(Tag("All"))
             tagDao.insertDefaultTag(Tag("About"))

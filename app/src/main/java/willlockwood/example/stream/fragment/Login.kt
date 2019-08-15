@@ -11,10 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.twitter.sdk.android.core.*
-import com.twitter.sdk.android.core.models.User
 import kotlinx.android.synthetic.main.fragment_login.*
 import willlockwood.example.stream.R
-import willlockwood.example.stream.model.StreamUser
 import willlockwood.example.stream.viewmodel.UserViewModel
 
 class Login : Fragment() {
@@ -37,7 +35,7 @@ class Login : Fragment() {
                     val name = result.data.name
                     val userName = result.data.screenName
                     val profileImageUrl = result.data.profileImageUrl.replace("_normal", "")
-                    val user = StreamUser(name, userName, profileImageUrl, "twitter")
+                    val user = willlockwood.example.stream.model.User(name, userName, profileImageUrl, "twitter")
 
                     userVM.setCurrentUser(user)
                     userVM.insertNewUser(user)
