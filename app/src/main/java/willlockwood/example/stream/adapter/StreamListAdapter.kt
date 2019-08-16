@@ -71,6 +71,8 @@ class StreamListAdapter internal constructor(
 
     internal fun removeAt(index: Int) { streamVM.deleteStream(this.streams[index]) }
 
+    internal fun streamAt(index: Int): Stream = this.streams[index]
+
     internal fun setStreams(streams: List<Stream>) { updateStreams(streams) }
 
     private fun updateStreams(s: List<Stream>) {
@@ -80,7 +82,9 @@ class StreamListAdapter internal constructor(
         this.streams = s
 
         if (this.streams.isEmpty()) {
-            val defaultStream = Stream(streamVM.getCurrentTag().value!!.name, "Stream something!", false)
+            val defaultStream = Stream(streamVM.getCurrentTag().value!!.name, "Stream something!", false,
+                tweetable = false
+            )
             this.streams = listOf(defaultStream)
         }
 

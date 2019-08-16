@@ -10,9 +10,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.twitter.sdk.android.core.Callback
+import com.twitter.sdk.android.core.Result
+import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.TwitterException
+import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.fragment_streams_streams.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.SwipeToDeleteCallback
+import willlockwood.example.stream.SwipeToTweetCallback
 import willlockwood.example.stream.adapter.StreamListAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
 import willlockwood.example.stream.viewmodel.UserViewModel
@@ -53,13 +59,42 @@ class StreamsRecycler : Fragment() {
             }
         }
 
-        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(context!!) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 streamAdapter.removeAt(viewHolder.adapterPosition)
             }
         }
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(recyclerView)
+
+        val swipeTweetHandler = object : SwipeToTweetCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val streamToTweet = streamAdapter.streamAt(viewHolder.adapterPosition)
+                tweet(streamToTweet.text)
+                streamVM.tweetStream(streamToTweet)
+//                streamAdapter.removeAt(viewHolder.adapterPosition)
+
+            }
+        }
+        val itemTouchTweetHelper = ItemTouchHelper(swipeTweetHandler)
+        itemTouchTweetHelper.attachToRecyclerView(recyclerView)
+    }
+
+
+    fun tweet(message: String) {
+        val statusesService = TwitterCore.getInstance().apiClient.statusesService
+//        val context = this
+        statusesService.update(message, null, null, null, null, null, null, null, null)
+            .enqueue(object : Callback<Tweet>() {
+                override fun success(result: Result<Tweet>?) {
+//                    Toast.makeText(context,R.string.tweet_posted,Toast.LENGTH_SHORT).show()
+                }
+
+                override fun failure(exception: TwitterException) {
+//                    Toast.makeText(context,exception.localizedMessage,Toast.LENGTH_SHORT).show()
+                }
+            })
+//        postEditText.setText("")
     }
 
     private fun setUpViewModels() {

@@ -17,6 +17,8 @@ data class Stream(
     var tag: String,
     var text: String,
     var deleteable: Boolean,
+    var tweetable: Boolean,
+    var tweeted: Boolean = false,
 
     @TypeConverters(UriConverters::class)
     var imageUris: String? = null

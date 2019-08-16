@@ -17,7 +17,11 @@ class StreamRepository(
 //    fun insertStream(tagName: String, text: String) { streamDao.insert(Stream(tagName, text)) }
     fun insertStream(stream: Stream) { streamDao.insert(stream) }
 
+    suspend fun updateStream(stream: Stream) { streamDao.updateStream(stream) }
+    suspend fun updateStreams(streams: List<Stream>) { streamDao.updateStreams(streams) }
+
     suspend fun updateTags(tags: List<Tag>) { tagDao.updateTags(tags) }
+
     suspend fun deleteTags(vararg tags: Tag) = tagDao.deleteTags(*tags)
 
     suspend fun deleteStreams(vararg streams: Stream) = streamDao.deleteStreams(*streams)

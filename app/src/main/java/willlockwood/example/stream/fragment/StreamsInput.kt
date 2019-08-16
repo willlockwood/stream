@@ -160,7 +160,10 @@ class StreamsInput : Fragment() {
         val streamText = streamInputEditText.editableText.toString()
 
         if (streamIsReadyToUpload(streamText)) {
-            val newStream = Stream(streamVM.getCurrentTag().value!!.name, streamText, true)
+            val newStream = Stream(streamVM.getCurrentTag().value!!.name, streamText,
+                deleteable = true,
+                tweetable = true
+            )
             newStream.imageUris = streamVM.getThumbnailUris().value?.joinToString(", ")
             streamVM.insertStream(newStream)
 

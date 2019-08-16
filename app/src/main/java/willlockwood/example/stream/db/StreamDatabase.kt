@@ -18,7 +18,7 @@ import willlockwood.example.stream.model.User
 
 @Database(
     entities = [Stream::class, Tag::class, User::class],
-    version = 7
+    version = 8
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {
@@ -74,7 +74,7 @@ abstract class StreamDatabase : RoomDatabase() {
                 "To learn more about updates or give feedback, reach out to @vidythatte on twitter",
                 "Made with love, brains and coffee in San Francisco")
             for (text in aboutStreams) {
-                streamDao.insertAboutStream(Stream("About", text, false))
+                streamDao.insertAboutStream(Stream("About", text, false, false))
             }
         }
     }

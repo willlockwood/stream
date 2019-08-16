@@ -16,6 +16,12 @@ interface StreamDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(stream: Stream)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateStreams(streams: List<Stream>)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateStream(stream: Stream)
+
     @Query("DELETE  FROM streams WHERE tag == 'About' ")
     suspend fun deleteDefaultStreams()
 
