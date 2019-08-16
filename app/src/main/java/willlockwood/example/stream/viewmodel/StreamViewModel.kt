@@ -1,6 +1,7 @@
 package willlockwood.example.stream.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,8 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     private var imageThumbnailUris = MutableLiveData<String>()
     private var filteredStreams: LiveData<List<Stream>>
 
+    private var streamBeingRepliedTo = MutableLiveData<Stream>()
+
     init {
         viewModelScope.launch(Dispatchers.IO) { currentTag.postValue(getTagByName("All")) }
 
@@ -32,6 +35,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
 
     fun getAllTags() = tags
     fun getFilteredStreams() = filteredStreams
+
 
     fun setCurrentTag(tag: Tag) { currentTag.value = tag }
     fun getCurrentTag() = currentTag
@@ -62,14 +66,17 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     fun clearThumbnailUris() { thumbnailUris.value = null }
     fun deleteThumbnailUris(uri: String) {
         val currentArray = thumbnailUris.value
-        val newArray = currentArray!!.filter {
-            it != uri
-        }.toTypedArray()
-
+        val newArray = currentArray!!.filter { it != uri }.toTypedArray()
         if (newArray.isNotEmpty()) {
             thumbnailUris.value = newArray
         } else {
             thumbnailUris.value = null
         }
     }
+
+    fun setStreamBeingThreaded(stream: Stream?) {
+        Log.i("streamBeingRepliedTo", stream.toString())
+        streamBeingRepliedTo.value = stream
+    }
+    fun getStreamBeingThreaded() = streamBeingRepliedTo
 }

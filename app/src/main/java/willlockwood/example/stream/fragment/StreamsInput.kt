@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
-import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.fragment_streams_input.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.InputThumbnailsAdapter
@@ -88,14 +82,50 @@ class StreamsInput : Fragment() {
 
         observeCurrentTag()
 
+        setUpThreadWarningBar()
+
         observeThumbnailUris()
 
         setUpInputButtons()
     }
 
+    // Disappears the input bar when on an un-modifiable tag (currently, only the "About" tag)
+    private fun observeCurrentTag() {
+        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
+            when (it.name) {
+                "About" -> this.view!!.visibility = View.GONE
+                else -> this.view!!.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun setUpThreadWarningBar() {
+        streamVM.getStreamBeingThreaded().observe(viewLifecycleOwner, Observer {
+            when (it) {
+                null -> this.replyingWarning.visibility = View.GONE
+                else -> this.replyingWarning.visibility = View.VISIBLE
+            }
+        })
+        replyWarningStop.setOnClickListener {
+            streamVM.setStreamBeingThreaded(null)
+        }
+    }
+
+    // Updates the thumbnail bar UI
+    private fun observeThumbnailUris() {
+        streamVM.getThumbnailUris().observe(viewLifecycleOwner, Observer {
+            if (it.isNullOrEmpty()) {
+                images.visibility = View.GONE
+                thumbnailAdapter.setUris(emptyList())
+            } else {
+                images.visibility = View.VISIBLE
+                thumbnailAdapter.setUris(it.toList())
+            }
+        })
+    }
+
     private fun render(uiOutput: SpeechRecognizerViewModel.ViewState?) {
         if (uiOutput == null) return
-
         streamInputEditText.setText(uiOutput.spokenText)
     }
 
@@ -116,46 +146,6 @@ class StreamsInput : Fragment() {
         } //system OS is < Marshmallow
     }
 
-    // Disappears the input bar when on an un-modifiable tag (currently, only the "About" tag)
-    private fun observeCurrentTag() {
-        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
-            when (it.name) {
-                "About" -> this.view!!.visibility = View.GONE
-                else -> this.view!!.visibility = View.VISIBLE
-            }
-            Log.i("vm", it.toString())
-        })
-    }
-
-    // Updates the thumbnail bar UI
-    private fun observeThumbnailUris() {
-        streamVM.getThumbnailUris().observe(viewLifecycleOwner, Observer {
-            if (it.isNullOrEmpty()) {
-                images.visibility = View.GONE
-                thumbnailAdapter.setUris(emptyList())
-            } else {
-                images.visibility = View.VISIBLE
-                thumbnailAdapter.setUris(it.toList())
-            }
-        })
-    }
-
-    fun postATweet(message: String) {
-        val statusesService = TwitterCore.getInstance().apiClient.statusesService
-//        val context = this
-        statusesService.update(message, null, null, null, null, null, null, null, null)
-            .enqueue(object : Callback<Tweet>() {
-                override fun success(result: Result<Tweet>?) {
-//                    Toast.makeText(context,R.string.tweet_posted,Toast.LENGTH_SHORT).show()
-                }
-
-                override fun failure(exception: TwitterException) {
-//                    Toast.makeText(context,exception.localizedMessage,Toast.LENGTH_SHORT).show()
-                }
-            })
-//        postEditText.setText("")
-    }
-
     private val streamUploadClickListener = View.OnClickListener {
         val streamText = streamInputEditText.editableText.toString()
 
@@ -170,8 +160,6 @@ class StreamsInput : Fragment() {
             streamInputEditText.setText("")
             images.visibility = View.GONE
             streamVM.clearThumbnailUris()
-
-//            postATweet(newStream.text)
         }
     }
 

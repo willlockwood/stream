@@ -58,6 +58,16 @@ class StreamsRecycler : Fragment() {
         setUpRecyclerView()
     }
 
+    private fun setUpViewModels() {
+        userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
+
+        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+        streamVM.getFilteredStreams().observe(viewLifecycleOwner, Observer {
+            streamAdapter.setStreams(it)
+            recyclerView.scrollToPosition(streamAdapter.itemCount - 1)
+        })
+    }
+
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
         streamAdapter = StreamListAdapter(this.context!!, streamVM, userVM)
@@ -96,8 +106,7 @@ class StreamsRecycler : Fragment() {
         val ext = getExtension(file.getName())
         return if (!TextUtils.isEmpty(ext)) {
             MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext)
-        } else "application/octet-stream"
-        // TODO: I don't know what "octet-stream" is, so maybe check that out
+        } else "application/octet-stream" // TODO: I don't know what "octet-stream" is, so maybe check that out
     }
 
     private fun getExtension(filename: String?): String? {
@@ -160,14 +169,6 @@ class StreamsRecycler : Fragment() {
         }
     }
 
-    private fun setUpViewModels() {
-        userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
 
-        streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
-        streamVM.getFilteredStreams().observe(viewLifecycleOwner, Observer {
-            streamAdapter.setStreams(it)
-            recyclerView.scrollToPosition(streamAdapter.itemCount - 1)
-        })
-    }
 
 }

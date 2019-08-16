@@ -62,6 +62,13 @@ class StreamListAdapter internal constructor(
         }
 
         holder.streamText.text = stream.text
+
+        if (stream.threadable) {
+            holder.streamText.setOnLongClickListener {
+                streamVM.setStreamBeingThreaded(stream)
+                true
+            }
+        }
     }
 
     internal fun isStreamDeleteableAtPosition(position: Int): Boolean {
@@ -82,8 +89,10 @@ class StreamListAdapter internal constructor(
         this.streams = s
 
         if (this.streams.isEmpty()) {
-            val defaultStream = Stream(streamVM.getCurrentTag().value!!.name, "Stream something!", false,
-                tweetable = false
+            val defaultStream = Stream(streamVM.getCurrentTag().value!!.name,"Stream something!",
+                deleteable = false,
+                tweetable = false,
+                threadable = false
             )
             this.streams = listOf(defaultStream)
         }
