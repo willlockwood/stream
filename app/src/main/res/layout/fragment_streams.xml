@@ -14,7 +14,7 @@
                 <!--android:layout_height="50dp"-->
                 <!--app:layout_constraintTop_toTopOf="parent"-->
                 <!--app:layout_constraintBottom_toTopOf="@id/stream_list_fragment"-->
-                <!--android:name="willlockwood.example.stream.fragment.TagLayoutFragment" />-->
+                <!--android:tagName="willlockwood.example.stream.fragment.TagLayoutFragment" />-->
 
         <fragment
                 android:id="@+id/stream_tags_layout"
