@@ -1,6 +1,7 @@
 package willlockwood.example.stream.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +21,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch(Dispatchers.IO) { currentUser.postValue(User("blah", "blah", "blah", "blah")) }
-//        currentUser.postValue(getAllUsers().value!![0])
     }
 
 //    private val users: LiveData<List<User>> by lazy { repository.getUsers() }
@@ -33,7 +33,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun setCurrentUser(user: User) { currentUser.value = user }
     fun getCurrentUser() = currentUser
 
-    fun insertNewUser(user: User) = viewModelScope.launch(Dispatchers.IO) { repository.insertNewUser(user)}
+    fun insertNewUser(user: User) = viewModelScope.launch(Dispatchers.IO) {
+        Log.i("insertNewUser", user.toString())
+        repository.insertNewUser(user)
+    }
 
 
 }

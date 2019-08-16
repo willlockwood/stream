@@ -1,6 +1,7 @@
 package willlockwood.example.stream.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,8 +38,8 @@ class Login : Fragment() {
                     val userName = result.data.screenName
                     val profileImageUrl = result.data.profileImageUrl.replace("_normal", "")
                     val user = willlockwood.example.stream.model.User("twitter", name, userName, profileImageUrl)
-
-                    userVM.setCurrentUser(user)
+//                    Log.i("useratLogin", user.toString())
+//                    userVM.setCurrentUser(user)
                     userVM.insertNewUser(user)
                     findNavController().navigate(R.id.action_login_to_streams, null, null, null)
                 }
@@ -61,6 +62,12 @@ class Login : Fragment() {
                 Toast.makeText(context,exception.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data)
+//        findNavController().navigate(R.id.action_login_to_streams, null, null, null)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

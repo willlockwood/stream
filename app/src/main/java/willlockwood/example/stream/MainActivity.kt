@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.activity_main.*
 import willlockwood.example.stream.viewmodel.SpeechRecognizerViewModel
 import willlockwood.example.stream.viewmodel.StreamViewModel
 import willlockwood.example.stream.viewmodel.UserViewModel
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Log.i("mainActivity", it.toString())
             }
-
         })
     }
 
@@ -39,12 +38,10 @@ class MainActivity : AppCompatActivity() {
         speechVM = ViewModelProviders.of(this).get(SpeechRecognizerViewModel::class.java)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 140 && resultCode == -1) {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_login_to_streams, null, null, null)
-        }
+        // TODO: This is a baaad way to do this (indexing the fragments) so fix this at some point
+        val loginFragment = nav_host_fragment.childFragmentManager.fragments[0]
+        loginFragment?.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -18,6 +18,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.twitter.sdk.android.core.Callback
+import com.twitter.sdk.android.core.Result
+import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.TwitterException
+import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.fragment_streams_input.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.InputThumbnailsAdapter
@@ -135,6 +140,22 @@ class StreamsInput : Fragment() {
         })
     }
 
+    fun postATweet(message: String) {
+        val statusesService = TwitterCore.getInstance().apiClient.statusesService
+//        val context = this
+        statusesService.update(message, null, null, null, null, null, null, null, null)
+            .enqueue(object : Callback<Tweet>() {
+                override fun success(result: Result<Tweet>?) {
+//                    Toast.makeText(context,R.string.tweet_posted,Toast.LENGTH_SHORT).show()
+                }
+
+                override fun failure(exception: TwitterException) {
+//                    Toast.makeText(context,exception.localizedMessage,Toast.LENGTH_SHORT).show()
+                }
+            })
+//        postEditText.setText("")
+    }
+
     private val streamUploadClickListener = View.OnClickListener {
         val streamText = streamInputEditText.editableText.toString()
 
@@ -146,6 +167,8 @@ class StreamsInput : Fragment() {
             streamInputEditText.setText("")
             images.visibility = View.GONE
             streamVM.clearThumbnailUris()
+
+//            postATweet(newStream.text)
         }
     }
 
