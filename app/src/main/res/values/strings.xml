@@ -5,4 +5,10 @@
 
     <string name="Twitter_CONSUMER_KEY">z98J062vx4o7OYWqVx1J14LlH</string>
     <string name="Twitter_CONSUMER_SECRET">vA2BD4C461AYyBkSfdXEKNlmsmz9AvF5XOsMN80RMolJSKZ5cP</string>
+
+
+
+
+    <!-- GUEST LOGIN BUTTON -->
+    <string name="guest_login_button">Continue as Guest</string>
 </resources>
