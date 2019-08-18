@@ -1,6 +1,7 @@
 package willlockwood.example.stream.fragment
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -26,6 +27,7 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import willlockwood.example.stream.R
 import willlockwood.example.stream.SwipeToDeleteCallback
 import willlockwood.example.stream.SwipeToTweetCallback
 import willlockwood.example.stream.adapter.StreamListAdapter
@@ -81,6 +83,37 @@ class StreamsRecycler : Fragment() {
             }
         }
 
+        streamVM.getPreviousStreamBeingThreaded().observe(viewLifecycleOwner, Observer {
+            Log.i("streamThreadedChange", "here")
+            if (it != null) {
+                val position = streamAdapter.getPositionOfStream(it)
+                if (position != -1) {
+                    Log.i("prevPosition", position.toString())
+                    val streamVH =
+                        recyclerView.findViewHolderForAdapterPosition(position) as StreamListAdapter.StreamViewHolder
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        streamVH.itemView.backgroundTintList =
+                            context!!.getColorStateList(R.color.stream_standard_background)
+                    }
+                }
+            }
+        })
+
+        streamVM.getStreamBeingThreaded().observe(viewLifecycleOwner, Observer {
+            Log.i("streamThreadedChange", "here")
+            if (it != null) {
+                val position = streamAdapter.getPositionOfStream(it)
+                if (position != -1) {
+                    Log.i("position", position.toString())
+                    val streamVH = recyclerView.findViewHolderForAdapterPosition(position) as StreamListAdapter.StreamViewHolder
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        streamVH.itemView.backgroundTintList = context!!.getColorStateList(R.color.stream_threading_background)
+                    }
+                }
+            }
+        })
+
+        // Swipe To Delete
         val swipeDeleteHandler = object : SwipeToDeleteCallback(context!!) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 streamAdapter.removeAt(viewHolder.adapterPosition)
@@ -89,13 +122,12 @@ class StreamsRecycler : Fragment() {
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
         itemTouchDeleteHelper.attachToRecyclerView(recyclerView)
 
+        // Swipe to Tweet
         val swipeTweetHandler = object : SwipeToTweetCallback(context!!) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val streamToTweet = streamAdapter.streamAt(viewHolder.adapterPosition)
                 tweet(streamToTweet)
-                streamVM.tweetStream(streamToTweet)
-//                streamAdapter.removeAt(viewHolder.adapterPosition)
-
+                streamVM.tweetStream(streamToTweet) // TODO: see if you can put this in the logic of the tweet function
             }
         }
         val itemTouchTweetHelper = ItemTouchHelper(swipeTweetHandler)

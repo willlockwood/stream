@@ -1,7 +1,9 @@
 package willlockwood.example.stream.adapter
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +34,10 @@ class StreamListAdapter internal constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
         val itemView = inflater.inflate(R.layout.row_stream, parent, false)
-        return StreamViewHolder(itemView)
+
+        val viewHolder = StreamViewHolder(itemView)
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: StreamViewHolder, position: Int) {
@@ -61,6 +66,19 @@ class StreamListAdapter internal constructor(
             adapter.setUris(urisList)
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (stream.streamId == streamVM.getStreamBeingThreaded().value?.streamId) {
+                Log.i("else", stream.toString())
+                holder.itemView.backgroundTintList = context.getColorStateList(R.color.stream_threading_background)
+            } else if (stream.tweeted) {
+                Log.i("tweeted", stream.toString())
+                holder.itemView.backgroundTintList = context.getColorStateList(R.color.stream_tweeted_background)
+            } else {
+                Log.i("else", stream.toString())
+                holder.itemView.backgroundTintList = context.getColorStateList(R.color.stream_standard_background)
+            }
+        }
+
         holder.streamText.text = stream.text
 
         if (stream.threadable) {
@@ -74,6 +92,23 @@ class StreamListAdapter internal constructor(
     internal fun isStreamDeleteableAtPosition(position: Int): Boolean {
         val stream = this.streams[position]
         return stream.deleteable
+    }
+
+//    internal fun getThreadingStreamPosition(stream: Stream): Int {
+//        for (s in this.streams) {
+//            if (s === stream) {
+//                return stream.stream
+//            }
+//        }
+//    }
+
+    internal fun getPositionOfStream(stream: Stream): Int {
+        for ((i, s) in this.streams.withIndex()) {
+            if (s === stream) {
+                return i
+            }
+        }
+        return -1
     }
 
     internal fun removeAt(index: Int) { streamVM.deleteStream(this.streams[index]) }

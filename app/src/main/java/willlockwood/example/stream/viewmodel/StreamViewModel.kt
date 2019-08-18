@@ -24,6 +24,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     private var filteredStreams: LiveData<List<Stream>>
 
     private var streamBeingRepliedTo = MutableLiveData<Stream>()
+    private var previousStreamBeingRepliedTo = MutableLiveData<Stream>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) { currentTag.postValue(getTagByName("All")) }
@@ -75,8 +76,11 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setStreamBeingThreaded(stream: Stream?) {
+        previousStreamBeingRepliedTo.value = streamBeingRepliedTo.value
+        Log.i("prevStreamBeingReplied", previousStreamBeingRepliedTo.value.toString())
         Log.i("streamBeingRepliedTo", stream.toString())
         streamBeingRepliedTo.value = stream
     }
     fun getStreamBeingThreaded() = streamBeingRepliedTo
+    fun getPreviousStreamBeingThreaded() = previousStreamBeingRepliedTo
 }
