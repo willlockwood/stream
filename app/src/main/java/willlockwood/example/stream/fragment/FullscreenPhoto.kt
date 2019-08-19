@@ -24,7 +24,7 @@ class FullscreenPhoto : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val imageView = image
+        val imageView = fullscreen_photo_image
 
 //        Glide.with(context!!)
 //            .load(File(uri.path))

@@ -8,18 +8,10 @@
         tools:context=".fragment.Streams"
         android:id="@+id/stream_layout">
 
-        <!--<fragment-->
-                <!--android:id="@+id/stream_tags_layout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--app:layout_constraintTop_toTopOf="parent"-->
-                <!--app:layout_constraintBottom_toTopOf="@id/stream_list_fragment"-->
-                <!--android:tagName="willlockwood.example.stream.fragment.TagLayoutFragment" />-->
-
         <fragment
                 android:id="@+id/stream_tags_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/tag_layout_height"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/stream_list_fragment"
                 android:name="willlockwood.example.stream.fragment.TagRecycler" />

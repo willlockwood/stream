@@ -21,7 +21,7 @@ class StreamItemPhotosAdapter internal constructor(
     private var listener: OnItemClickListener? = null
 
     inner class StreamPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.image)
+        val imageView: ImageView = itemView.findViewById(R.id.fullscreen_photo_image)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamPhotoViewHolder {

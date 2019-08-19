@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- CARD STACK -->
+    <!-- Card stack -->
     <dimen name="card_elevation">0.5dp</dimen>
     <dimen name="stack_card_corner_radius">2dp</dimen>
     <dimen name="stack_second_card_guideline">4dp</dimen>
@@ -10,6 +10,22 @@
     <dimen name="card_text_padding_left_right">20dp</dimen>
     <dimen name="card_text_padding_top_bottom">10dp</dimen>
     <dimen name="card_text_padding_bottom">10dp</dimen>
+
+    <!-- Tags -->
+    <dimen name="tag_layout_height">50dp</dimen>
+
+
+    <!-- Fragment: Tag edit -->
+    <dimen name="fragment_tag_edit_left_right_padding">100dp</dimen>
+    <dimen name="fragment_tag_edit_title_size">18sp</dimen>
+    <dimen name="fragment_tag_edit_title_padding_bottom">12dp</dimen>
+    
+    <!-- Stream input -->
+    <dimen name="input_icon_size">35dp</dimen>
+    <dimen name="input_thumbnail_recycler_height">75dp</dimen>
+
+
+
 
 
 

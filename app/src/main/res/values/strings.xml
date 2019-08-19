@@ -7,8 +7,18 @@
     <string name="Twitter_CONSUMER_SECRET">vA2BD4C461AYyBkSfdXEKNlmsmz9AvF5XOsMN80RMolJSKZ5cP</string>
 
 
-
-
-    <!-- GUEST LOGIN BUTTON -->
+    <!-- Guest login button -->
     <string name="guest_login_button">Continue as Guest</string>
+
+
+    <!-- Stream input -->
+    <string name="stream_input_hint">What are you thinking?</string>
+
+    <!-- Fragment: Tag edit -->
+    <string name="fragment_tag_edit_title">Edit/Add Tags</string>
+
+    <!-- Image content descriptions -->
+    <string name="img_desc_tag_edit_add_tag">Add a new tag</string>
+    <string name="img_desc_tag_edit_done">Finished editing tags</string>
+
 </resources>
