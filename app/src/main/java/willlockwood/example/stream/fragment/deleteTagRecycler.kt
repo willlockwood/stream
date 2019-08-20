@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_streams_tags3.*
+import kotlinx.android.synthetic.main.delete_fragment_streams_tags3.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.deleteTagAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
@@ -24,7 +24,7 @@ class deleteTagRecycler : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_streams_tags3, container, false)
+        return inflater.inflate(R.layout.delete_fragment_streams_tags3, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

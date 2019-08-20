@@ -29,7 +29,7 @@ class deleteTagAdapter internal constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
-        val itemView = inflater.inflate(R.layout.row_tag, parent, false)
+        val itemView = inflater.inflate(R.layout.delete_row_tag, parent, false)
         return TagViewHolder(itemView)
     }
 

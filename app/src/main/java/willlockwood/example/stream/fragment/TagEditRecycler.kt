@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_streams_tags3.tag_recycler
+import kotlinx.android.synthetic.main.delete_fragment_streams_tags3.tag_recycler
 import kotlinx.android.synthetic.main.fragment_tag_edit.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.TagEditAdapter
