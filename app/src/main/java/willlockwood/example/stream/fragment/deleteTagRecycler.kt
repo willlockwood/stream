@@ -11,20 +11,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_streams_tags.*
+import kotlinx.android.synthetic.main.fragment_streams_tags3.*
 import willlockwood.example.stream.R
-import willlockwood.example.stream.adapter.TagAdapter
+import willlockwood.example.stream.adapter.deleteTagAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
-class TagRecycler : Fragment() {
+class deleteTagRecycler : Fragment() {
 
     lateinit var streamVM: StreamViewModel
     lateinit var recyclerView: RecyclerView
-    lateinit var tagAdapter: TagAdapter
+    lateinit var deleteTagAdapter: deleteTagAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_streams_tags, container, false)
+        return inflater.inflate(R.layout.fragment_streams_tags3, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,19 +49,17 @@ class TagRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = tag_recycler
-        tagAdapter = TagAdapter(this.context!!, streamVM)
-        recyclerView.adapter = tagAdapter
+        deleteTagAdapter = deleteTagAdapter(this.context!!, streamVM)
+        recyclerView.adapter = deleteTagAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun observeTags() {
-        streamVM.getAllTags().observe(viewLifecycleOwner, Observer { tagAdapter.setTags(it) })
+        streamVM.getAllTags().observe(viewLifecycleOwner, Observer { deleteTagAdapter.setTags(it) })
         streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                tagAdapter.setCurrentTag(it)
+                deleteTagAdapter.setCurrentTag(it)
             }
         })
     }
-
-
 }

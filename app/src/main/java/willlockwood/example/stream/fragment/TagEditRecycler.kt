@@ -1,6 +1,7 @@
 package willlockwood.example.stream.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_streams_tags.tag_recycler
+import kotlinx.android.synthetic.main.fragment_streams_tags3.tag_recycler
 import kotlinx.android.synthetic.main.fragment_tag_edit.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.TagEditAdapter
@@ -35,7 +36,7 @@ class TagEditRecycler : Fragment() {
         setUpViewModels()
         setUpRecyclerView()
 
-        val addButton: ImageButton = add_tag_button
+        val addButton: ImageButton = add_tag_button_2
         val doneButton: ImageButton = done_button
 
         addButton.setOnClickListener {
@@ -45,7 +46,11 @@ class TagEditRecycler : Fragment() {
         doneButton.setOnClickListener {
             val tags = tagEditAdapter.getTags()
             streamVM.updateTags(tags)
+            Log.i("blah", "blah")
+            Log.i("blah", "blah")
+            Log.i("blah", "blah")
             streamVM.setCurrentTag(tags[0])
+
             findNavController().navigate(R.id.action_tagEdit_to_streams, null, null, null)
         }
     }

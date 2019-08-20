@@ -15,10 +15,10 @@ import willlockwood.example.stream.model.Tag
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
 
-class TagAdapter internal constructor(
+class deleteTagAdapter internal constructor(
     private var context: Context,
     private var viewModel: StreamViewModel
-    ) : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
+    ) : RecyclerView.Adapter<deleteTagAdapter.TagViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var tags = emptyList<Tag>()
