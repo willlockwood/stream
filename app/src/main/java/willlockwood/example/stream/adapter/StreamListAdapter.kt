@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -30,6 +31,7 @@ class StreamListAdapter internal constructor(
     inner class StreamViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val streamText: TextView = itemView.findViewById(R.id.text)
         val recycler: RecyclerView = itemView.findViewById(R.id.recycler)
+        val button: Button = itemView.findViewById(R.id.startThreadButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
@@ -47,6 +49,11 @@ class StreamListAdapter internal constructor(
 
         holder.recycler.visibility = View.GONE
 
+        holder.button.setOnClickListener {
+            Log.i("newThreadFromStream", "here")
+            streamVM.newThreadFromStream(stream)
+        }
+
         // Add images if there are images to add
         if (urisList != null) {
             holder.recycler.visibility = View.VISIBLE
@@ -62,6 +69,7 @@ class StreamListAdapter internal constructor(
                     view.findNavController().navigate(R.id.action_streams_to_streamsPhotosFullscreen, bundle, null, null)
                 }
             })
+
             holder.recycler.adapter = adapter
             adapter.setUris(urisList)
         }

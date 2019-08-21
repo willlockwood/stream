@@ -24,6 +24,12 @@ import willlockwood.example.stream.UriConverters
             parentColumns = arrayOf("streamId"),
             childColumns = arrayOf("isRepliedById"),
             onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE),
+        ForeignKey(
+            entity = Thread::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("thread"),
+            onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE)
     ]
 )
@@ -32,8 +38,10 @@ data class Stream(
     var text: String,
     var deleteable: Boolean,
     var tweetable: Boolean,
-    var threadable: Boolean = true,
+    var threadable: Boolean,
     var tweeted: Boolean = false,
+    var positionInThread: Int? = 0,
+    var thread: Int? = null,
     var isAReplyToId: Int? = null,
     var isRepliedById: Int? = null,
 

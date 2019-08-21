@@ -41,6 +41,9 @@
         </action>
         <action android:id="@+id/action_streams_to_streamsPhotosFullscreen"
                 app:destination="@id/streamsPhotosFullscreen"/>
+        <action
+            android:id="@+id/action_streams_to_thread"
+            app:destination="@id/thread" />
     </fragment>
 
     <fragment
@@ -55,6 +58,15 @@
               android:name="willlockwood.example.stream.fragment.FullscreenPhotosPager"
               android:label="fragment_streams_row_photos_pager"
               tools:layout="@layout/fragment_fullscreen_photos_pager"/>
+    <fragment
+        android:id="@+id/thread"
+        android:name="willlockwood.example.stream.fragment.Thread"
+        android:label="fragment_thread"
+        tools:layout="@layout/fragment_thread" >
+        <action
+            android:id="@+id/action_thread_to_streams"
+            app:destination="@id/streams" />
+    </fragment>
 
 
 </navigation>

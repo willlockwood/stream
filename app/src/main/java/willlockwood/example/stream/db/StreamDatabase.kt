@@ -11,20 +11,23 @@ import kotlinx.coroutines.launch
 import willlockwood.example.stream.UriConverters
 import willlockwood.example.stream.dao.StreamDao
 import willlockwood.example.stream.dao.TagDao
+import willlockwood.example.stream.dao.ThreadDao
 import willlockwood.example.stream.dao.UserDao
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.model.Tag
+import willlockwood.example.stream.model.Thread
 import willlockwood.example.stream.model.User
 
 @Database(
-    entities = [Stream::class, Tag::class, User::class],
-    version = 10
+    entities = [Stream::class, Tag::class, User::class, Thread::class],
+    version = 14
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {
 
     abstract fun streamDao(): StreamDao
     abstract fun tagDao(): TagDao
+    abstract fun threadDao(): ThreadDao
     abstract fun userDao(): UserDao
 
     companion object {

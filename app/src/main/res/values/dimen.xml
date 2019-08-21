@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Card stack -->
-    <dimen name="card_elevation">0.5dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
     <dimen name="stack_card_corner_radius">2dp</dimen>
     <dimen name="stack_second_card_guideline">4dp</dimen>
     <dimen name="stack_top_card_guideline">8dp</dimen>

@@ -151,13 +151,20 @@ class StreamsInput : Fragment() {
 
         if (streamIsReadyToUpload(streamText)) {
 
-            val streamBeingThreadedId: Int? = streamVM.getStreamBeingThreaded().value?.streamId
+//            val streamBeingThreadedId: Int? = streamVM.getStreamBeingThreaded().value?.streamId
 
             val newStream = Stream(streamVM.getCurrentTag().value!!.name, streamText,
                 deleteable = true,
                 tweetable = true,
-                isAReplyToId = streamBeingThreadedId
+                threadable = true,
+                thread = streamVM.getCurrentThread().value?.id
             )
+
+            if (streamVM.getCurrentThread().value != null) {
+                newStream.threadable = false
+                newStream.positionInThread = streamVM.getThreadStreams().value!!.size
+            }
+
             newStream.imageUris = streamVM.getThumbnailUris().value?.joinToString(", ")
             streamVM.insertStream(newStream)
 
@@ -165,9 +172,9 @@ class StreamsInput : Fragment() {
             images.visibility = View.GONE
             streamVM.clearThumbnailUris()
 
-            if (streamBeingThreadedId != null) {
-                streamVM.setStreamBeingThreaded(null)
-            }
+//            if (streamBeingThreadedId != null) {
+//                streamVM.setStreamBeingThreaded(null)
+//            }
 
             // TODO: make it so that posting a threaded stream sets the VM's streamBeingThreaded to the new stream
 //            if (streamBeingThreadedId != null) {  }

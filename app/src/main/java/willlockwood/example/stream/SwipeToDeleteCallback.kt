@@ -6,7 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import willlockwood.example.stream.adapter.StreamListAdapter
+import willlockwood.example.stream.adapter.StreamsAdapter
 
 abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -19,7 +19,8 @@ abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleC
 
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        val streamAdapter: StreamListAdapter = recyclerView.adapter as StreamListAdapter
+//        val streamAdapter: StreamListAdapter = recyclerView.adapter as StreamListAdapter
+        val streamAdapter = recyclerView.adapter as StreamsAdapter
         if (!streamAdapter.isStreamDeleteableAtPosition(viewHolder.adapterPosition)) {
             return 0
         }

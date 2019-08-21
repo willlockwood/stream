@@ -36,7 +36,7 @@ import willlockwood.example.stream.viewmodel.UserViewModel
 import java.io.File
 
 
-class StreamsRecycler : Fragment() {
+class ThreadRecycler : Fragment() {
 
     // ViewModels
     lateinit var streamVM: StreamViewModel
@@ -65,13 +65,11 @@ class StreamsRecycler : Fragment() {
 
     private fun setUpViewModels() {
         userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
-
         streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
-
     }
 
     private fun observeStreams() {
-        streamVM.getFilteredStreams().observe(viewLifecycleOwner, Observer {
+        streamVM.getThreadStreams().observe(viewLifecycleOwner, Observer {
             streamAdapter.setStreams(it)
             recyclerView.scrollToPosition(streamAdapter.itemCount - 1)
         })
@@ -79,7 +77,6 @@ class StreamsRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-//        streamAdapter = StreamListAdapter(this.context!!, streamVM, userVM)
         streamAdapter = StreamsAdapter(this.context!!, streamVM, userVM)
         recyclerView.adapter = streamAdapter
         layoutManager = LinearLayoutManager(context)

@@ -8,13 +8,15 @@ import kotlinx.coroutines.launch
 import willlockwood.example.stream.db.StreamDatabase
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.model.Tag
+import willlockwood.example.stream.model.Thread
 import willlockwood.example.stream.repository.StreamRepository
 
 class StreamViewModel(application: Application) : AndroidViewModel(application) {
 
     private val streamDao = StreamDatabase.getDatabase(application, viewModelScope).streamDao()
     private val tagDao = StreamDatabase.getDatabase(application, viewModelScope).tagDao()
-    private val repository = StreamRepository(streamDao, tagDao)
+    private val threadDao = StreamDatabase.getDatabase(application, viewModelScope).threadDao()
+    private val repository = StreamRepository(streamDao, tagDao, threadDao)
 
     private var currentTag = MutableLiveData<Tag>()
 //    private var imageThumbnailUris = MutableLiveData<Array<String>>(emptyArray())
@@ -22,7 +24,10 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     private var thumbnailUris = MutableLiveData<Array<String>>()
     private var imageThumbnailUris = MutableLiveData<String>()
     private var filteredStreams: LiveData<List<Stream>>
+    private var threadStreams: LiveData<List<Stream>>
 
+    private var currentThread = MutableLiveData<Thread>()
+    private var threadBeingEdited = MutableLiveData<Int>()
     private var streamBeingRepliedTo = MutableLiveData<Stream>()
     private var previousStreamBeingRepliedTo = MutableLiveData<Stream>()
 
@@ -30,18 +35,34 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch(Dispatchers.IO) { currentTag.postValue(getTagByName("All")) }
 
         filteredStreams = Transformations.switchMap(currentTag) { tag -> repository.getStreamsByTag(tag) }
+//        threadStreams = Transformations.switchMap(threadBeingEdited) { id -> repository.getStreamsByThread(id)}
+        threadStreams = Transformations.switchMap(currentThread) { thread -> repository.getStreamsByThread(thread)}
     }
 
     private val tags: LiveData<List<Tag>> by lazy { repository.getAllTags() }
 
     fun getAllTags() = tags
     fun getFilteredStreams() = filteredStreams
-
+    fun getThreadStreams() = threadStreams
 
     fun setCurrentTag(tag: Tag) { currentTag.value = tag }
     fun getCurrentTag() = currentTag
     private suspend fun getTagByName(tag: String) = repository.getTagByName(tag)
     fun insertStream(stream: Stream) = viewModelScope.launch(Dispatchers.IO) { repository.insertStream(stream) }
+
+    fun newThreadFromStream(stream: Stream) = viewModelScope.launch(Dispatchers.IO) {
+        val newThreadId = repository.insertThread(Thread(stream.tag)).toInt()
+        stream.thread = newThreadId
+        updateStream(stream)
+        setCurrentThread(newThreadId)
+//        setThreadBeingEdited(newThreadId)
+    }
+
+    suspend fun getThreadById(id: Int): Thread? {
+        return repository.getThreadById(id)
+    }
+
+    fun updateThread(thread: Thread) = viewModelScope.launch(Dispatchers.IO) { repository.updateThread(thread) }
 
     fun insertNewTag() = viewModelScope.launch(Dispatchers.IO) { repository.insertNewTag() }
 
@@ -74,6 +95,22 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
             thumbnailUris.value = null
         }
     }
+
+    suspend fun setCurrentThread(id: Int?) {
+        if (id != null) {
+            val thread = getThreadById(id)
+            currentThread.postValue(thread)
+        } else {
+            currentThread.postValue(null)
+        }
+    }
+    fun getCurrentThread() = currentThread
+
+    fun setThreadBeingEdited(id: Int?) {
+//        threadBeingEdited.value = id
+        threadBeingEdited.postValue(id)
+    }
+    fun getThreadBeingEdited() = threadBeingEdited
 
     fun setStreamBeingThreaded(stream: Stream?) {
         previousStreamBeingRepliedTo.value = streamBeingRepliedTo.value
