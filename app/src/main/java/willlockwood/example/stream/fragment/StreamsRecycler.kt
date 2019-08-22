@@ -44,7 +44,6 @@ class StreamsRecycler : Fragment() {
 
     // Recycler
     lateinit var recyclerView: RecyclerView
-//    lateinit var streamAdapter: StreamListAdapter
     lateinit var streamAdapter: StreamsAdapter
     lateinit var layoutManager: LinearLayoutManager
 
@@ -79,7 +78,6 @@ class StreamsRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-//        streamAdapter = StreamListAdapter(this.context!!, streamVM, userVM)
         streamAdapter = StreamsAdapter(this.context!!, streamVM, userVM)
         recyclerView.adapter = streamAdapter
         layoutManager = LinearLayoutManager(context)

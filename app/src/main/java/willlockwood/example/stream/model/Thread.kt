@@ -15,7 +15,8 @@ import androidx.room.PrimaryKey
     )
 data class Thread (
     var tag: String,
-    var title: String? = null
+    var title: String = "Untitled Thread",
+    var size: Int = 0
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

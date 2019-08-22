@@ -17,37 +17,14 @@ class ThreadViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
 
         var thread: Thread?
 
-//        var threadLD = MutableLiveData<Thread>()
-//
-////        threadLD.observe(this, Observer {
-////
-////        })
-//        threadLD.observe()
-//
-//        streamVM.getThreadById(stream.thread)
-
         suspend fun getThread() {
             thread = streamVM.getThreadById(stream.thread!!)
-//            Log.i("thread", thread.toString())
-//            if (thread!!.title != null) {
-//
+
             withContext(Dispatchers.Main) {
-                if (thread!!.title != null) {
-                    itemView.cardText.text = thread!!.title
-                }
+                itemView.cardText.text = thread!!.title
+                itemView.threadSize.text = thread!!.size.toString()
             }
-//            uiThread {
-//
-//            }
-//
-//                itemView.cardText.text = thread!!.title
-//            }
-////            itemView.cardText = stream.text
         }
-
-//        val thread = streamVM.getThreadById(stream.thread!!)
-
-//        itemView.cardText.text = thread!!.title
 
         itemView.cardText.text = stream.text
 

@@ -20,7 +20,7 @@ import willlockwood.example.stream.model.User
 
 @Database(
     entities = [Stream::class, Tag::class, User::class, Thread::class],
-    version = 14
+    version = 16
 )
 @TypeConverters(UriConverters::class)
 abstract class StreamDatabase : RoomDatabase() {
