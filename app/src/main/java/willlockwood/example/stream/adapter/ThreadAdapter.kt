@@ -11,12 +11,14 @@ import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewholder.StreamViewHolder
 import willlockwood.example.stream.viewholder.ThreadViewHolder
 import willlockwood.example.stream.viewmodel.StreamViewModel
+import willlockwood.example.stream.viewmodel.TextToSpeechVM
 import willlockwood.example.stream.viewmodel.UserViewModel
 
 class ThreadAdapter internal constructor(
     private val context: Context,
     private val streamVM: StreamViewModel,
-    private val userVM: UserViewModel
+    private val userVM: UserViewModel,
+    private val textToSpeechVM: TextToSpeechVM
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -34,11 +36,11 @@ class ThreadAdapter internal constructor(
         when (getItemViewType(position)) {
             CellType.SINGLE_STREAM.ordinal -> {
                 val streamViewHolder = holder as StreamViewHolder
-                streamViewHolder.bindView(streams[position], streamVM)
+                streamViewHolder.bindView(streams[position], streamVM, textToSpeechVM)
             }
             CellType.STACK.ordinal -> {
                 val stackViewHolder = holder as ThreadViewHolder
-                stackViewHolder.bindView(streams[position], streamVM)
+                stackViewHolder.bindView(streams[position], streamVM, textToSpeechVM)
             }
         }
     }

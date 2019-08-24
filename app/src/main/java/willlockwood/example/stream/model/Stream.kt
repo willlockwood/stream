@@ -39,6 +39,7 @@ data class Stream(
     var deleteable: Boolean,
     var tweetable: Boolean,
     var threadable: Boolean,
+    var tweetId: Long? = null,
     var tweeted: Boolean = false,
     var positionInThread: Int? = 0,
     var thread: Int? = null,
@@ -50,4 +51,22 @@ data class Stream(
 ) {
     @PrimaryKey(autoGenerate = true)
     var streamId: Int = 0
+
+    override fun equals(other: Any?): Boolean {
+
+        other as Stream
+
+        return when {
+            this.streamId != other.streamId -> false
+            this.tag != other.tag -> false
+            this.text != other.text -> false
+            this.tweetId != other.tweetId -> false
+            this.positionInThread != other.positionInThread -> false
+            this.thread != other.thread -> false
+            else -> true
+        }
+//        return super.equals(other)
+    }
+
+    // TODO: OVERRIDE HASHMAP FUNCTION
 }

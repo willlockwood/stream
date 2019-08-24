@@ -5,6 +5,7 @@
     android:id="@+id/recyclerViewCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusableInTouchMode="false"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:contentPaddingLeft="@dimen/card_text_padding_left_right"

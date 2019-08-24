@@ -40,6 +40,13 @@ class StreamRepository(
         }
     }
 
+    suspend fun returnStreamsByThread(threadId: Int?): List<Stream> {
+        return when (threadId) {
+            null -> streamDao.returnStreamsByThread(-1)
+            else -> streamDao.returnStreamsByThread(threadId)
+        }
+    }
+
     fun getStreamsByThread(thread: Thread?): LiveData<List<Stream>>? {
         return when (thread) {
             null -> streamDao.getStreamsByThread(-1)

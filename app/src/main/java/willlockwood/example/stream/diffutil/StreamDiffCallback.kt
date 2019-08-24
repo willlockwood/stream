@@ -14,14 +14,14 @@ class StreamDiffCallback(private val oldList: List<Stream>, private val newList:
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] === newList[newItemPosition]
+        return oldList[oldItemPosition].streamId === newList[newItemPosition].streamId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldStream = oldList[oldItemPosition]
         val newStream = newList[newItemPosition]
 
-        return oldStream.streamId == newStream.streamId
+        return oldStream == newStream
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {

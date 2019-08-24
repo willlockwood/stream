@@ -32,6 +32,7 @@ import willlockwood.example.stream.SwipeToTweetCallback
 import willlockwood.example.stream.adapter.StreamsAdapter
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.StreamViewModel
+import willlockwood.example.stream.viewmodel.TextToSpeechVM
 import willlockwood.example.stream.viewmodel.UserViewModel
 import java.io.File
 
@@ -41,6 +42,7 @@ class ThreadRecycler : Fragment() {
     // ViewModels
     lateinit var streamVM: StreamViewModel
     lateinit var userVM: UserViewModel
+    lateinit var textToSpeechVM: TextToSpeechVM
 
     // Recycler
     lateinit var recyclerView: RecyclerView
@@ -66,6 +68,7 @@ class ThreadRecycler : Fragment() {
     private fun setUpViewModels() {
         userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
         streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
+        textToSpeechVM = ViewModelProviders.of(activity!!).get(TextToSpeechVM::class.java)
     }
 
     private fun observeStreams() {
@@ -77,7 +80,7 @@ class ThreadRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-        streamAdapter = StreamsAdapter(this.context!!, streamVM, userVM)
+        streamAdapter = StreamsAdapter(this.context!!, streamVM, userVM, textToSpeechVM)
         recyclerView.adapter = streamAdapter
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager

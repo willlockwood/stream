@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class StreamsInput : Fragment() {
     lateinit var speechVM: SpeechRecognizerViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var thumbnailAdapter: InputThumbnailsAdapter
+
 
     companion object {
         private val IMAGE_PICK_CODE = 1000
@@ -82,11 +84,23 @@ class StreamsInput : Fragment() {
 
         observeCurrentTag()
 
-        setUpThreadWarningBar()
+//        setUpThreadWarningBar()
+        observeIfOnThread()
 
         observeThumbnailUris()
 
         setUpInputButtons()
+
+
+    }
+
+    private fun observeIfOnThread() {
+        streamVM.getCurrentThread().observe(viewLifecycleOwner, Observer {
+            when (it) {
+                null -> streamInputEditText.setHint("What are you thinking?")
+                else -> streamInputEditText.setHint("Add to this thread...")
+            }
+        })
     }
 
     // Disappears the input bar when on an un-modifiable tag (currently, only the "About" tag)
@@ -97,18 +111,6 @@ class StreamsInput : Fragment() {
                 else -> this.view!!.visibility = View.VISIBLE
             }
         })
-    }
-
-    private fun setUpThreadWarningBar() {
-        streamVM.getStreamBeingThreaded().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                null -> this.replyingWarning.visibility = View.GONE
-                else -> this.replyingWarning.visibility = View.VISIBLE
-            }
-        })
-        replyWarningStop.setOnClickListener {
-            streamVM.setStreamBeingThreaded(null)
-        }
     }
 
     // Updates the thumbnail bar UI
@@ -127,23 +129,35 @@ class StreamsInput : Fragment() {
     private fun render(uiOutput: SpeechRecognizerViewModel.ViewState?) {
         if (uiOutput == null) return
         streamInputEditText.setText(uiOutput.spokenText)
+        Log.i("isListening", speechVM.isListening.toString())
+        if (!speechVM.isListening) {
+
+            if (uiOutput.spokenText.endsWith(" end stream")) {
+                streamInputEditText.setText(uiOutput.spokenText.dropLast(11))
+                speechVM.resetViewState()
+                streamUploadButton.performClick()
+                streamInputEditText.setText("")
+
+            } else if (uiOutput.spokenText.endsWith(" start new stream")) {
+                streamInputEditText.setText(uiOutput.spokenText.dropLast(17))
+                speechVM.resetViewState()
+                streamUploadButton.performClick()
+                streamInputEditText.setText("")
+                speechButton.performClick()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val micClickListener = View.OnClickListener {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (activity!!.checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
                 val permissions = arrayOf(android.Manifest.permission.RECORD_AUDIO) //permission denied
                 requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION) //show popup to request runtime permission
-            } else {
-                if (speechVM.isListening) { speechVM.stopListening() }
-                else { speechVM.startListening() }
-            }
-        } else {
-            if (speechVM.isListening) { speechVM.stopListening() }
-            else { speechVM.startListening() }
-        } //system OS is < Marshmallow
+            } else if (speechVM.isListening) { speechVM.stopListening()
+            } else { speechVM.startListening() }
+        } else if (speechVM.isListening) { speechVM.stopListening()
+        } else { speechVM.startListening() } //system OS is < Marshmallow
     }
 
     private val streamUploadClickListener = View.OnClickListener {
@@ -151,9 +165,8 @@ class StreamsInput : Fragment() {
 
         if (streamIsReadyToUpload(streamText)) {
 
-//            val streamBeingThreadedId: Int? = streamVM.getStreamBeingThreaded().value?.streamId
-
-            val newStream = Stream(streamVM.getCurrentTag().value!!.name, streamText,
+            val newStream = Stream(streamVM.getCurrentTag().value!!.name,
+                streamText,
                 deleteable = true,
                 tweetable = true,
                 threadable = true,
@@ -168,13 +181,11 @@ class StreamsInput : Fragment() {
             newStream.imageUris = streamVM.getThumbnailUris().value?.joinToString(", ")
             streamVM.insertStream(newStream)
 
+            speechVM.resetViewState()
+
             streamInputEditText.setText("")
             images.visibility = View.GONE
             streamVM.clearThumbnailUris()
-
-//            if (streamBeingThreadedId != null) {
-//                streamVM.setStreamBeingThreaded(null)
-//            }
 
             // TODO: make it so that posting a threaded stream sets the VM's streamBeingThreaded to the new stream
 //            if (streamBeingThreadedId != null) {  }
@@ -267,4 +278,6 @@ class StreamsInput : Fragment() {
     private fun streamIsReadyToUpload(text: String): Boolean {
         return text != ""
     }
+
+
 }

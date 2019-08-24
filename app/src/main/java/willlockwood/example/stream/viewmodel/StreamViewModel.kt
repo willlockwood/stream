@@ -33,9 +33,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         viewModelScope.launch(Dispatchers.IO) { currentTag.postValue(getTagByName("All")) }
-
         filteredStreams = Transformations.switchMap(currentTag) { tag -> repository.getStreamsByTag(tag) }
-//        threadStreams = Transformations.switchMap(threadBeingEdited) { id -> repository.getStreamsByThread(id)}
         threadStreams = Transformations.switchMap(currentThread) { thread -> repository.getStreamsByThread(thread)}
     }
 
@@ -50,12 +48,13 @@ class StreamViewModel(application: Application) : AndroidViewModel(application) 
     private suspend fun getTagByName(tag: String) = repository.getTagByName(tag)
     fun insertStream(stream: Stream) = viewModelScope.launch(Dispatchers.IO) { repository.insertStream(stream) }
 
+    suspend fun returnStreamsByThreadId(threadId: Int): List<Stream> = repository.returnStreamsByThread(threadId)
+
     fun newThreadFromStream(stream: Stream) = viewModelScope.launch(Dispatchers.IO) {
         val newThreadId = repository.insertThread(Thread(stream.tag)).toInt()
         stream.thread = newThreadId
         updateStream(stream)
         setCurrentThread(newThreadId)
-//        setThreadBeingEdited(newThreadId)
     }
 
     suspend fun getThreadById(id: Int): Thread? {

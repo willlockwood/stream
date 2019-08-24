@@ -15,15 +15,19 @@ import kotlinx.android.synthetic.main.fragment_thread.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import willlockwood.example.stream.R
+import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.model.Thread
 import willlockwood.example.stream.viewmodel.StreamViewModel
+import willlockwood.example.stream.viewmodel.TextToSpeechVM
 import willlockwood.example.stream.viewmodel.UserViewModel
 
 class Thread : Fragment() {
 
     lateinit var streamVM: StreamViewModel
     lateinit var userVM: UserViewModel
+    lateinit var textToSpeechVM: TextToSpeechVM
     lateinit var thread: Thread
+    var threadStreams: List<Stream> = emptyList()
 
     var numberOfStreams: Int? = null
 
@@ -46,6 +50,20 @@ class Thread : Fragment() {
         setUpHeader()
 
         observeThreadStreams()
+
+        setUpTextToSpeechButton()
+    }
+
+    private fun setUpTextToSpeechButton() {
+        threadSpeakButton.setOnClickListener {
+            var textList = emptyList<String>()
+            for (stream in threadStreams) {
+                textList = textList.plus(stream.text)
+                textToSpeechVM.setTextToSpeak(textList)
+            }
+        }
+
+
     }
 
     private fun setUpHeader() {
@@ -102,6 +120,7 @@ class Thread : Fragment() {
 
     private fun observeThreadStreams() {
         streamVM.getThreadStreams().observe(viewLifecycleOwner, Observer {
+            threadStreams = it
             numberOfStreams = it.size
             threadSize.setText(numberOfStreams.toString())
             thread.size = it.size
@@ -112,6 +131,7 @@ class Thread : Fragment() {
     private fun setUpViewModels() {
         streamVM = ViewModelProviders.of(activity!!).get(StreamViewModel::class.java)
         userVM = ViewModelProviders.of(activity!!).get(UserViewModel::class.java)
+        textToSpeechVM = ViewModelProviders.of(activity!!).get(TextToSpeechVM::class.java)
     }
 
     private fun observeCurrentThread() {

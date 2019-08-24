@@ -34,7 +34,10 @@ class SpeechRecognizerViewModel(application: Application) : AndroidViewModel(app
         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
     }
 
-    var isListening = false
+//    var isListening = false
+//        get() = viewState?.value?.isListening ?: false
+
+    val isListening
         get() = viewState?.value?.isListening ?: false
 
     var permissionToRecordAudio = checkAudioRecordingPermission(context = application)
@@ -60,8 +63,15 @@ class SpeechRecognizerViewModel(application: Application) : AndroidViewModel(app
         notifyListening(isRecording = false)
     }
 
+    fun resetViewState() {
+        viewState?.value = initViewState()
+    }
+
     private fun notifyListening(isRecording: Boolean) {
         viewState?.value = viewState?.value?.copy(isListening = isRecording)
+        if (!isRecording) {
+            resetViewState()
+        }
     }
 
     private fun updateResults(speechBundle: Bundle?) {

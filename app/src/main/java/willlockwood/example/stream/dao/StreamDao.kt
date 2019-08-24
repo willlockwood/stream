@@ -8,14 +8,14 @@ import willlockwood.example.stream.model.Thread
 @Dao
 interface StreamDao {
 
-//    @Query("SELECT * from streams WHERE tag != 'About' ")
-//    fun getAllStreams(): LiveData<List<Stream>>
-
     @Query("SELECT * from streams WHERE tag != 'About' AND positionInThread == 0")
     fun getAllStreams(): LiveData<List<Stream>>
 
     @Query("SELECT * FROM streams WHERE thread == :id")
     fun getStreamsByThread(id: Int): LiveData<List<Stream>>
+
+    @Query("SELECT * FROM streams WHERE thread == :id")
+    suspend fun returnStreamsByThread(id: Int): List<Stream>
 
     @Query("SELECT * FROM streams WHERE tag  == :tagName AND positionInThread == 0")
     fun getStreamsByTag(tagName: String): LiveData<List<Stream>>
