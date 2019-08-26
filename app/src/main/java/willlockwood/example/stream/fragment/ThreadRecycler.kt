@@ -80,7 +80,7 @@ class ThreadRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = stream_recyclerView
-        streamAdapter = StreamsAdapter(this.context!!, streamVM, userVM, textToSpeechVM)
+        streamAdapter = StreamsAdapter(this.context!!, streamVM, textToSpeechVM)
         recyclerView.adapter = streamAdapter
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
@@ -93,7 +93,7 @@ class ThreadRecycler : Fragment() {
         }
 
         // Swipe To Delete
-        val swipeDeleteHandler = object : SwipeToDeleteCallback(context!!) {
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(context!!, "streams") {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 streamAdapter.removeAt(viewHolder.adapterPosition)
             }

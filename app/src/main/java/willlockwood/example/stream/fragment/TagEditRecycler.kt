@@ -1,20 +1,20 @@
 package willlockwood.example.stream.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.delete_fragment_streams_tags3.tag_recycler
 import kotlinx.android.synthetic.main.fragment_tag_edit.*
 import willlockwood.example.stream.R
+import willlockwood.example.stream.SwipeToDeleteCallback
 import willlockwood.example.stream.adapter.TagEditAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
@@ -35,24 +35,28 @@ class TagEditRecycler : Fragment() {
 
         setUpViewModels()
         setUpRecyclerView()
+        observeTags()
+        setUpHeaderButtons()
+    }
 
-        val addButton: ImageButton = add_tag_button_2
-        val doneButton: ImageButton = done_button
-
-        addButton.setOnClickListener {
+    private fun setUpHeaderButtons() {
+        add_tag_btn.setOnClickListener {
             streamVM.insertNewTag()
         }
 
-        doneButton.setOnClickListener {
+        delete_tag_btn.setOnClickListener {
             val tags = tagEditAdapter.getTags()
             streamVM.updateTags(tags)
-            Log.i("blah", "blah")
-            Log.i("blah", "blah")
-            Log.i("blah", "blah")
             streamVM.setCurrentTag(tags[0])
 
             findNavController().navigate(R.id.action_tagEdit_to_streams, null, null, null)
         }
+    }
+
+    private fun observeTags() {
+        streamVM.getAllTags().observe(viewLifecycleOwner, Observer {
+            tagEditAdapter.setTags(it)
+        })
     }
 
     private fun setUpViewModels() {
@@ -68,6 +72,16 @@ class TagEditRecycler : Fragment() {
         tagEditAdapter = TagEditAdapter(this.context!!, streamVM)
         recyclerView.adapter = tagEditAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // Swipe To Delete
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(context!!, "tags") {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                tagEditAdapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(recyclerView)
+
     }
 
 }

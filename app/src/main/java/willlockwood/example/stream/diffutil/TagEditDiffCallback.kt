@@ -1,5 +1,6 @@
 package willlockwood.example.stream.diffutil
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import willlockwood.example.stream.model.Tag
 
@@ -14,14 +15,25 @@ class TagEditDiffCallback(private val oldList: List<Tag>, private val newList: L
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] === newList[newItemPosition]
+        return oldList[oldItemPosition].id === newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldTag = oldList[oldItemPosition]
         val newTag = newList[newItemPosition]
 
-        return oldTag.id == newTag.id
+        Log.i("oldTag", oldTag.toString())
+        Log.i("newTag", newTag.toString())
+
+        return when {
+            oldTag.id != newTag.id -> false
+            oldTag.name != newTag.name -> true
+            oldTag.position != newTag.position -> false
+            oldTag.type != newTag.type -> false
+            else -> true
+        }
+
+//        return oldTag.id == newTag.id
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {

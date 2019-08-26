@@ -7,8 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import willlockwood.example.stream.adapter.StreamsAdapter
+import willlockwood.example.stream.adapter.TagEditAdapter
 
-abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+abstract class SwipeToDeleteCallback(
+    context: Context,
+    private val adapterType: String
+) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_white_24dp)!!
     private val intrinsicWidth = deleteIcon.intrinsicWidth
@@ -17,15 +21,19 @@ abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleC
     private val backgroundColor = Color.parseColor("#f44336")
     private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
-
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-//        val streamAdapter: StreamListAdapter = recyclerView.adapter as StreamListAdapter
-        val streamAdapter = recyclerView.adapter as StreamsAdapter
-        if (!streamAdapter.isStreamDeleteableAtPosition(viewHolder.adapterPosition)) {
-            return 0
+        if (adapterType == "tags") {
+            val tagAdapter = recyclerView.adapter as TagEditAdapter
+            if (!tagAdapter.isTagDeleteableAtPosition(viewHolder.adapterPosition)) {
+                return 0
+            }
+        } else if (adapterType == "streams") {
+            val streamAdapter = recyclerView.adapter as StreamsAdapter
+            if (!streamAdapter.isStreamDeleteableAtPosition(viewHolder.adapterPosition)) {
+                return 0
+            }
         }
         return super.getMovementFlags(recyclerView, viewHolder)
-
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {

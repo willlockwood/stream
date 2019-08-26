@@ -17,7 +17,7 @@
 
     <!-- Fragment: Tag edit -->
     <dimen name="fragment_tag_edit_left_right_padding">100dp</dimen>
-    <dimen name="fragment_tag_edit_title_size">18sp</dimen>
+    <dimen name="fragment_tag_edit_title_size">22sp</dimen>
     <dimen name="fragment_tag_edit_title_padding_bottom">12dp</dimen>
     
     <!-- Stream input -->

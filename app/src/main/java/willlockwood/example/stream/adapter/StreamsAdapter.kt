@@ -13,14 +13,12 @@ import willlockwood.example.stream.viewholder.StreamViewHolder
 import willlockwood.example.stream.viewholder.ThreadViewHolder
 import willlockwood.example.stream.viewmodel.StreamViewModel
 import willlockwood.example.stream.viewmodel.TextToSpeechVM
-import willlockwood.example.stream.viewmodel.UserViewModel
 import java.util.*
 
 
 class StreamsAdapter internal constructor(
     private val context: Context,
     private val streamVM: StreamViewModel,
-    private val userVM: UserViewModel,
     private val textToSpeechVM: TextToSpeechVM
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

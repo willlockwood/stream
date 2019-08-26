@@ -17,6 +17,9 @@ interface TagDao {
     suspend fun insert(tag: Tag): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTag(tag: Tag)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTags(tags: List<Tag>)
 //
     @Insert(onConflict = OnConflictStrategy.ABORT)

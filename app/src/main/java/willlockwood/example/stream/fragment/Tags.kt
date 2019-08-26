@@ -1,5 +1,6 @@
 package willlockwood.example.stream.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_streams_tags.*
+import willlockwood.example.stream.R
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
 class Tags : Fragment() {
@@ -48,9 +50,17 @@ class Tags : Fragment() {
             for (chip in chipGroup.children) {
                 if ((chip as Chip).id == checkedChipId) {
                     chip.isClickable = false
+                    chip.setChipBackgroundColorResource(R.color.tag_color_black)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        chip.setTextColor(context!!.getColorStateList(R.color.tag_text_color_white))
+                    }
                 } else {
                     chip.isClickable = true
                     chip.isChecked = false
+                    chip.setChipBackgroundColorResource(R.color.tag_color)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        chip.setTextColor(context!!.getColorStateList(R.color.tag_color_black))
+                    }
                 }
             }
         }

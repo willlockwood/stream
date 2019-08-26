@@ -27,8 +27,8 @@ class StreamRepository(
 
     suspend fun updateThread(thread: Thread) { threadDao.updateThread(thread) }
 
+    suspend fun updateTag(tag: Tag) { tagDao.updateTag(tag) }
     suspend fun updateTags(tags: List<Tag>) { tagDao.updateTags(tags) }
-
     suspend fun deleteTags(vararg tags: Tag) = tagDao.deleteTags(*tags)
 
     suspend fun deleteStreams(vararg streams: Stream) = streamDao.deleteStreams(*streams)
