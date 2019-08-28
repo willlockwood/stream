@@ -46,6 +46,9 @@ class TagEditViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
 
             reappear(startEditingButton)
             reappear(displayText)
+
+            val imm: InputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(itemView.windowToken, 0)
         }
 
         startEditingButton.setOnClickListener {
@@ -60,20 +63,8 @@ class TagEditViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         }
 
-//        if (tag.moveable) { tag.position = position }
-//
-//        holder.editText.setText(tag.name)
-//
-//        holder.editText.isEnabled = tag.renameable
-//
-//        if (tag.deleteable) {
-//            holder.deleteButton.visibility = View.VISIBLE
-//            holder.deleteButton.setOnClickListener {
-//                streamVM.deleteTag(tag)
-//            }
-//        } else {
-//            holder.deleteButton.visibility = View.INVISIBLE
-//        }
-//
+        if (!tag.renameable) {
+            startEditingButton.visibility = View.GONE
+        }
     }
 }

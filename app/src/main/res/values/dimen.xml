@@ -25,8 +25,7 @@
     <dimen name="input_thumbnail_recycler_height">75dp</dimen>
 
 
-
-
-
+    <dimen name="text_end_padding">10dp</dimen>
+    <dimen name="text_start_padding">10dp</dimen>
 
 </resources>

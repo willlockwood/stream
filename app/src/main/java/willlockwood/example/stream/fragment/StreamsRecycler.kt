@@ -30,10 +30,10 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
-import willlockwood.example.stream.DragToReorderCallback
+import willlockwood.example.stream.touchhelper.DragToReorderCallback
 import willlockwood.example.stream.R
-import willlockwood.example.stream.SwipeToDeleteCallback
-import willlockwood.example.stream.SwipeToTweetCallback
+import willlockwood.example.stream.touchhelper.SwipeToDeleteCallback
+import willlockwood.example.stream.touchhelper.SwipeToTweetCallback
 import willlockwood.example.stream.adapter.StreamsAdapter
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.StreamViewModel

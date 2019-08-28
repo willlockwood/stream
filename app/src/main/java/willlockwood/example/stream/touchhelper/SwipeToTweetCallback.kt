@@ -1,4 +1,4 @@
-package willlockwood.example.stream
+package willlockwood.example.stream.touchhelper
 
 import android.content.Context
 import android.graphics.*
@@ -6,11 +6,14 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.StreamsAdapter
 
 abstract class SwipeToTweetCallback(context: Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
-    private val tweetIcon = ContextCompat.getDrawable(context, R.drawable.ic_twitter_logo_white)!!
+    private val tweetIcon = ContextCompat.getDrawable(context,
+        R.drawable.ic_twitter_logo_white
+    )!!
     private val intrinsicWidth = tweetIcon.intrinsicWidth
     private val intrinsicHeight = tweetIcon.intrinsicHeight
     private val background = ColorDrawable()

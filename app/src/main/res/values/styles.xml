@@ -31,4 +31,21 @@
         <item name="cornerRadius">20dp</item>
     </style>
 
+    <style name="AboutHeader">
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="AboutText">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="AboutBullet">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
 </resources>

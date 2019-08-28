@@ -1,4 +1,4 @@
-package willlockwood.example.stream
+package willlockwood.example.stream.touchhelper
 
 import android.content.Context
 import android.graphics.*
@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.StreamsAdapter
 import willlockwood.example.stream.adapter.TagEditAdapter
 
@@ -14,7 +15,9 @@ abstract class SwipeToDeleteCallback(
     private val adapterType: String
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_white_24dp)!!
+    private val deleteIcon = ContextCompat.getDrawable(context,
+        R.drawable.ic_delete_white_24dp
+    )!!
     private val intrinsicWidth = deleteIcon.intrinsicWidth
     private val intrinsicHeight = deleteIcon.intrinsicHeight
     private val background = ColorDrawable()

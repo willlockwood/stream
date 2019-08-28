@@ -1,4 +1,4 @@
-package willlockwood.example.stream
+package willlockwood.example.stream.touchhelper
 
 import android.content.Context
 import androidx.recyclerview.widget.ItemTouchHelper

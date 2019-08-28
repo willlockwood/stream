@@ -32,13 +32,9 @@ class TagEditDiffCallback(private val oldList: List<Tag>, private val newList: L
             oldTag.type != newTag.type -> false
             else -> true
         }
-
-//        return oldTag.id == newTag.id
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
         return super.getChangePayload(oldItemPosition, newItemPosition)
     }
-
-
 }

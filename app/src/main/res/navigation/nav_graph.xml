@@ -67,6 +67,11 @@
             android:id="@+id/action_thread_to_streams"
             app:destination="@id/streams" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="willlockwood.example.stream.fragment.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about_terms" />
 
 
 </navigation>

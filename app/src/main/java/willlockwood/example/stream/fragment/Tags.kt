@@ -1,17 +1,16 @@
 package willlockwood.example.stream.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import kotlinx.android.synthetic.main.fragment_streams_tags.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.viewmodel.StreamViewModel
@@ -46,24 +45,24 @@ class Tags : Fragment() {
     }
 
     private fun setUpChipGroup() {
-        tagsGroup.setOnCheckedChangeListener { chipGroup, checkedChipId ->
-            for (chip in chipGroup.children) {
-                if ((chip as Chip).id == checkedChipId) {
-                    chip.isClickable = false
-                    chip.setChipBackgroundColorResource(R.color.tag_color_black)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        chip.setTextColor(context!!.getColorStateList(R.color.tag_text_color_white))
-                    }
-                } else {
-                    chip.isClickable = true
-                    chip.isChecked = false
-                    chip.setChipBackgroundColorResource(R.color.tag_color)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        chip.setTextColor(context!!.getColorStateList(R.color.tag_color_black))
-                    }
-                }
-            }
-        }
+//        tagsGroup.setOnCheckedChangeListener { chipGroup, checkedChipId ->
+//            for (chip in chipGroup.children) {
+//                if ((chip as Chip).id == checkedChipId) {
+//                    chip.isClickable = false
+//                    chip.setChipBackgroundColorResource(R.color.tag_color_black)
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                        chip.setTextColor(context!!.getColorStateList(R.color.tag_text_color_white))
+//                    }
+//                } else {
+//                    chip.isClickable = true
+//                    chip.isChecked = false
+//                    chip.setChipBackgroundColorResource(R.color.tag_color)
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                        chip.setTextColor(context!!.getColorStateList(R.color.tag_color_black))
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun observeTags() {
@@ -76,14 +75,21 @@ class Tags : Fragment() {
                 for (tag in it) {
                     val chipToAdd = Chip(context)
 
+
                     chipToAdd.id = tag.id
 
+
+                    var chipDrawable = ChipDrawable.createFromAttributes(context, null, 0, R.style.Widget_MaterialComponents_Chip_Choice)
+                    chipDrawable.setChipBackgroundColorResource(R.color.tag_text_color_white)
+                    chipToAdd.setChipDrawable(chipDrawable)
                     chipToAdd.isCheckable = true
                     chipToAdd.isCheckedIconVisible = false
                     chipToAdd.text = tag.name
                     chipToAdd.setOnClickListener {
                         streamVM.setCurrentTag(tag)
                     }
+//                    chipToAdd.setTextStartPadding(20.toFloat())
+
                     tagsGroup.addView(chipToAdd)
 
                     if (chipToAdd.text == streamVM.getCurrentTag().value?.name) {
