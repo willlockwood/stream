@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_menu_tags"
+            android:icon="@drawable/ic_create_new_folder_black_24dp"
+            android:title="Edit/Add Tags" />
+        <item
+            android:id="@+id/nav_menu_log_in"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Accounts" />
+
+        <item android:title="About items">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_menu_privacy"
+                        android:icon="@drawable/ic_security_black_24dp"
+                        android:title="Privacy Policy" />
+                    <item
+                        android:id="@+id/nav_menu_terms"
+                        android:icon="@drawable/ic_info_black_24dp"
+                        android:title="Terms and Conditions" />
+                </group>
+            </menu>
+        </item>
+    </group>
+</menu>

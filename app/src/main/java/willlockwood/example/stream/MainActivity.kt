@@ -5,10 +5,16 @@ import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.MenuItem
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import willlockwood.example.stream.viewmodel.SpeechRecognizerViewModel
 import willlockwood.example.stream.viewmodel.StreamViewModel
@@ -17,7 +23,9 @@ import willlockwood.example.stream.viewmodel.UserViewModel
 import java.util.*
 
 class MainActivity : AppCompatActivity(),
-    TextToSpeech.OnInitListener {
+    TextToSpeech.OnInitListener,
+    NavigationView.OnNavigationItemSelectedListener
+{
 
     private lateinit var streamVM: StreamViewModel
     private lateinit var userVM: UserViewModel
@@ -25,9 +33,15 @@ class MainActivity : AppCompatActivity(),
     private lateinit var textToSpeechVM: TextToSpeechVM
     private var textToSpeech: TextToSpeech? = null
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        setUpNavigation()
+
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 //        // Hide keyboard
@@ -50,6 +64,32 @@ class MainActivity : AppCompatActivity(),
             observeTextToSpeech()
         }
 
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        item.isChecked = true
+        drawer_layout.closeDrawers()
+
+        val id = item.itemId
+        when (id) {
+            R.id.nav_menu_home -> navController.navigate(R.id.streams)
+            R.id.nav_menu_tags -> navController.navigate(R.id.login_fragment)
+            R.id.nav_menu_log_in -> navController.navigate(R.id.login_fragment)
+            R.id.nav_menu_privacy -> navController.navigate(R.id.aboutTerms)
+            R.id.nav_menu_terms -> navController.navigate(R.id.aboutPrivacy)
+        }
+
+        return true
+    }
+
+    private fun setUpNavigation() {
+        setSupportActionBar(toolbar as Toolbar)
+
+        navController = (nav_host_fragment as NavHostFragment).navController
+
+        NavigationUI.setupWithNavController(navigationView, navController)
+
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
     private fun setUpViewModels() {
