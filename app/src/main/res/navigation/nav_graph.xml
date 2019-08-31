@@ -41,9 +41,10 @@
         </action>
         <action android:id="@+id/action_streams_to_streamsPhotosFullscreen"
                 app:destination="@id/streamsPhotosFullscreen"/>
-        <action
-            android:id="@+id/action_streams_to_thread"
-            app:destination="@id/thread" />
+        <action android:id="@+id/action_streams_to_thread"
+                app:destination="@id/thread" />
+        <action android:id="@+id/action_streams_to_about_terms"
+                app:destination="@id/aboutTerms" />
     </fragment>
 
     <fragment
@@ -54,10 +55,12 @@
             android:id="@+id/action_tagEdit_to_streams"
             app:destination="@id/streams"/>
     </fragment>
+
     <fragment android:id="@+id/streamsPhotosFullscreen"
               android:name="willlockwood.example.stream.fragment.FullscreenPhotosPager"
               android:label="fragment_streams_row_photos_pager"
               tools:layout="@layout/fragment_fullscreen_photos_pager"/>
+
     <fragment
         android:id="@+id/thread"
         android:name="willlockwood.example.stream.fragment.Thread"
@@ -68,10 +71,16 @@
             app:destination="@id/streams" />
     </fragment>
     <fragment
-        android:id="@+id/aboutFragment"
-        android:name="willlockwood.example.stream.fragment.AboutFragment"
-        android:label="fragment_about"
+        android:id="@+id/aboutTerms"
+        android:name="willlockwood.example.stream.fragment.AboutTerms"
+        android:label="fragment_about_terms"
         tools:layout="@layout/fragment_about_terms" />
+
+    <fragment
+        android:id="@+id/aboutPrivacy"
+        android:name="willlockwood.example.stream.fragment.AboutPrivacy"
+        android:label="fragment_about_privacy"
+        tools:layout="@layout/fragment_about_privacy" />
 
 
 </navigation>
