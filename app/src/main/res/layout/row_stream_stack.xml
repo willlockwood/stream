@@ -1,116 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardStack"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/stack_padding_left_right"
-    android:paddingRight="@dimen/stack_padding_left_right">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/topCardBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/stack_top_card_guideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/secondCardBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/stack_second_card_guideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/secondCardTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/stack_second_card_guideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/thirdCardTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/stack_top_card_guideline" />
+    <data>
+        <variable
+            name="thread"
+            type="willlockwood.example.stream.model.Thread" />
+        <variable
+            name="stream"
+            type="willlockwood.example.stream.model.Stream" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/thirdCardLayout"
+        android:id="@+id/cardStack"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/thirdCardTop">
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/stack_padding_left_right"
+        android:paddingRight="@dimen/stack_padding_left_right">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/thirdCard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardElevation="@dimen/card_elevation"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topCardBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/stack_top_card_guideline" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/secondCardLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/secondCardBottom"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/secondCardTop">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/secondCardBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/stack_second_card_guideline" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/secondCard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardElevation="@dimen/card_elevation"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/secondCardTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/stack_second_card_guideline" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/topCard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="@dimen/stack_card_corner_radius"
-        app:cardElevation="@dimen/card_elevation"
-        app:cardUseCompatPadding="true"
-        app:contentPaddingLeft="@dimen/card_text_padding_left_right"
-        app:contentPaddingRight="@dimen/card_text_padding_left_right"
-        app:contentPaddingBottom="@dimen/card_text_padding_top_bottom"
-        app:contentPaddingTop="@dimen/card_text_padding_top_bottom"
-        app:layout_constraintBottom_toTopOf="@id/topCardBottom">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/thirdCardTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/stack_top_card_guideline" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thirdCardLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thirdCardTop">
 
-            <TextView
-                android:id="@+id/cardText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="16sp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/thirdCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="@dimen/card_elevation"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/threadSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/secondCardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/secondCardBottom"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/secondCardTop">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/secondCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="@dimen/card_elevation"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/topCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/stack_card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:cardUseCompatPadding="true"
+            app:contentPaddingLeft="@dimen/card_text_padding_left_right"
+            app:contentPaddingRight="@dimen/card_text_padding_left_right"
+            app:contentPaddingBottom="@dimen/card_text_padding_top_bottom"
+            app:contentPaddingTop="@dimen/card_text_padding_top_bottom"
+            app:layout_constraintBottom_toTopOf="@id/topCardBottom">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/cardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{thread.title}"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/threadSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--android:text="@{thread.size}"-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
 

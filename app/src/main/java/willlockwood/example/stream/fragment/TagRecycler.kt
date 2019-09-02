@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.delete_fragment_streams_tags3.*
 import willlockwood.example.stream.R
-import willlockwood.example.stream.adapter.deleteTagAdapter
+import willlockwood.example.stream.adapter.TagAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
 class deleteTagRecycler : Fragment() {
 
     lateinit var streamVM: StreamViewModel
     lateinit var recyclerView: RecyclerView
-    lateinit var deleteTagAdapter: deleteTagAdapter
+    lateinit var deleteTagAdapter: TagAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -49,7 +49,7 @@ class deleteTagRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = tag_recycler
-        deleteTagAdapter = deleteTagAdapter(this.context!!, streamVM)
+        deleteTagAdapter = TagAdapter(this.context!!, streamVM)
         recyclerView.adapter = deleteTagAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
