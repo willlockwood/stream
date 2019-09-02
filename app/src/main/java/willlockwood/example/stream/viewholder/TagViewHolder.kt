@@ -9,7 +9,7 @@ import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewmodel.StreamViewModel
 import willlockwood.example.stream.viewmodel.TextToSpeechVM
 
-class StreamViewHolder(
+class TagViewHolder(
     var binding: ViewDataBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
