@@ -15,7 +15,7 @@
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Accounts" />
 
-        <item android:title="About items">
+        <item android:title="About">
             <menu>
                 <group android:checkableBehavior="single">
                     <item
