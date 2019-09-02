@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
-import kotlinx.android.synthetic.main.fragment_streams_tags.*
-import willlockwood.example.stream.R
+import kotlinx.android.synthetic.main.delete_fragment_streams_tags.*
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
 class Tags : Fragment() {
@@ -21,7 +18,7 @@ class Tags : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(willlockwood.example.stream.R.layout.fragment_streams_tags, container, false)
+        return inflater.inflate(willlockwood.example.stream.R.layout.delete_fragment_streams_tags, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -31,7 +28,7 @@ class Tags : Fragment() {
 
         observeTags()
 
-        setUpChipGroup()
+//        setUpChipGroup()
 
         add_tag_button.setOnClickListener {
             streamVM.insertNewTag()
@@ -68,46 +65,46 @@ class Tags : Fragment() {
     private fun observeTags() {
         streamVM.getAllTags().observe(viewLifecycleOwner, Observer {
 
-            var currentChip: Chip? = null
-            tagsGroup.clearCheck()
-            tagsGroup.removeAllViews()
-            if (it != null) {
-                for (tag in it) {
-                    val chipToAdd = Chip(context)
-
-
-                    chipToAdd.id = tag.id
-
-
-                    var chipDrawable = ChipDrawable.createFromAttributes(context, null, 0, R.style.Widget_MaterialComponents_Chip_Choice)
-                    chipDrawable.setChipBackgroundColorResource(R.color.tag_text_color_white)
-                    chipToAdd.setChipDrawable(chipDrawable)
-                    chipToAdd.isCheckable = true
-                    chipToAdd.isCheckedIconVisible = false
-                    chipToAdd.text = tag.name
-                    chipToAdd.setOnClickListener {
-                        streamVM.setCurrentTag(tag)
-                    }
-//                    chipToAdd.setTextStartPadding(20.toFloat())
-
-                    tagsGroup.addView(chipToAdd)
-
-                    if (chipToAdd.text == streamVM.getCurrentTag().value?.name) {
-                        currentChip = chipToAdd
-                    }
-                }
-                if (currentChip != null) {
-                    if (tagsGroup.checkedChipId < 0) {
-                        tagsGroup.check(currentChip.id)
-                    }
-                }
-            }
+//            var currentChip: Chip? = null
+//            tagsGroup.clearCheck()
+//            tagsGroup.removeAllViews()
+//            if (it != null) {
+////                for (tag in it) {
+////                    val chipToAdd = Chip(context)
+////
+////
+////                    chipToAdd.id = tag.id
+////
+////
+////                    var chipDrawable = ChipDrawable.createFromAttributes(context, null, 0, R.style.Widget_MaterialComponents_Chip_Choice)
+////                    chipDrawable.setChipBackgroundColorResource(R.color.tag_text_color_white)
+////                    chipToAdd.setChipDrawable(chipDrawable)
+////                    chipToAdd.isCheckable = true
+////                    chipToAdd.isCheckedIconVisible = false
+////                    chipToAdd.text = tag.name
+////                    chipToAdd.setOnClickListener {
+////                        streamVM.setCurrentTag(tag)
+////                    }
+//////                    chipToAdd.setTextStartPadding(20.toFloat())
+////
+////                    tagsGroup.addView(chipToAdd)
+////
+////                    if (chipToAdd.text == streamVM.getCurrentTag().value?.name) {
+////                        currentChip = chipToAdd
+////                    }
+////                }
+////                if (currentChip != null) {
+////                    if (tagsGroup.checkedChipId < 0) {
+////                        tagsGroup.check(currentChip.id)
+////                    }
+////                }
+//            }
         })
-        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                tagsGroup.check(it.id)
-            }
-        })
+//        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
+//            if (it != null) {
+//                tagsGroup.check(it.id)
+//            }
+//        })
     }
 
 

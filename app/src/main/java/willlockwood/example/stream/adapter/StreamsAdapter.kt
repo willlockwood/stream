@@ -1,11 +1,12 @@
 package willlockwood.example.stream.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import willlockwood.example.stream.R
 import willlockwood.example.stream.diffutil.StreamDiffCallback
 import willlockwood.example.stream.model.Stream
 import willlockwood.example.stream.viewholder.StreamInThreadViewHolder
@@ -27,27 +28,18 @@ class StreamsAdapter internal constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            CellType.SINGLE_STREAM.ordinal -> StreamViewHolder(inflater.inflate(willlockwood.example.stream.R.layout.row_stream, parent, false))
-            CellType.SINGLE_STREAM_IN_THREAD.ordinal -> StreamInThreadViewHolder(inflater.inflate(willlockwood.example.stream.R.layout.row_stream_in_thread, parent, false))
-            CellType.STACK.ordinal -> ThreadViewHolder(inflater.inflate(willlockwood.example.stream.R.layout.row_stream_stack, parent, false))
-            else -> StreamViewHolder(inflater.inflate(willlockwood.example.stream.R.layout.row_stream_photos, parent, false))
+            CellType.SINGLE_STREAM.ordinal -> StreamViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream, parent, false))
+            CellType.SINGLE_STREAM_IN_THREAD.ordinal -> StreamInThreadViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_in_thread, parent, false))
+            CellType.STACK.ordinal -> ThreadViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_stack, parent, false))
+            else -> StreamViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_photos, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            CellType.SINGLE_STREAM.ordinal -> {
-                val streamViewHolder = holder as StreamViewHolder
-                streamViewHolder.bindView(streams[position], streamVM, textToSpeechVM)
-            }
-            CellType.STACK.ordinal -> {
-                val stackViewHolder = holder as ThreadViewHolder
-                stackViewHolder.bindView(streams[position], streamVM, textToSpeechVM)
-            }
-            CellType.SINGLE_STREAM_IN_THREAD.ordinal -> {
-                val streamInThreadViewHolder = holder as StreamInThreadViewHolder
-                streamInThreadViewHolder.bindView(streams[position], streamVM, textToSpeechVM)
-            }
+            CellType.SINGLE_STREAM.ordinal -> (holder as StreamViewHolder).bindView(streams[position], streamVM, textToSpeechVM)
+            CellType.STACK.ordinal -> (holder as ThreadViewHolder).bindView(streams[position], streamVM, textToSpeechVM)
+            CellType.SINGLE_STREAM_IN_THREAD.ordinal -> (holder as StreamInThreadViewHolder).bindView(streams[position], streamVM, textToSpeechVM)
         }
     }
 
@@ -81,24 +73,16 @@ class StreamsAdapter internal constructor(
     internal fun setStreams(streams: List<Stream>) { updateStreams(streams) }
 
     private fun updateStreams(s: List<Stream>) {
-
-        Log.i("streams", this.streams.toString())
-        Log.i("s", s.toString())
-
         val diffCallback = StreamDiffCallback(this.streams, s)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        Log.i("diffResult", diffResult.toString())
-
         diffResult.dispatchUpdatesTo(this)
-
         this.streams = s
 
         if (this.streams.isEmpty()) {
             val defaultStream = Stream(streamVM.getCurrentTag().value!!.name,"Stream something!",
                 deleteable = false,
                 tweetable = false,
-                threadable = false
-            )
+                threadable = false)
             this.streams = listOf(defaultStream)
         }
 

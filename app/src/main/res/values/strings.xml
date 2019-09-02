@@ -7,6 +7,9 @@
     <string name="Twitter_CONSUMER_SECRET">vA2BD4C461AYyBkSfdXEKNlmsmz9AvF5XOsMN80RMolJSKZ5cP</string>
 
 
+    <string name="vh_stream_name">stream</string>
+    <string name="vh_stream_text">text</string>
+
     <!-- Guest login button -->
     <string name="guest_login_button">Continue as Guest</string>
 

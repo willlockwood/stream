@@ -11,20 +11,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.delete_fragment_streams_tags3.*
+import kotlinx.android.synthetic.main.fragment_streams_tags2.*
 import willlockwood.example.stream.R
 import willlockwood.example.stream.adapter.TagAdapter
 import willlockwood.example.stream.viewmodel.StreamViewModel
 
-class deleteTagRecycler : Fragment() {
+class TagRecycler : Fragment() {
 
     lateinit var streamVM: StreamViewModel
     lateinit var recyclerView: RecyclerView
-    lateinit var deleteTagAdapter: TagAdapter
+    lateinit var tagAdapter: TagAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.delete_fragment_streams_tags3, container, false)
+        return inflater.inflate(R.layout.fragment_streams_tags2, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,17 +49,17 @@ class deleteTagRecycler : Fragment() {
 
     private fun setUpRecyclerView() {
         recyclerView = tag_recycler
-        deleteTagAdapter = TagAdapter(this.context!!, streamVM)
-        recyclerView.adapter = deleteTagAdapter
+        tagAdapter = TagAdapter(this.context!!, streamVM)
+        recyclerView.adapter = tagAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun observeTags() {
-        streamVM.getAllTags().observe(viewLifecycleOwner, Observer { deleteTagAdapter.setTags(it) })
-        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                deleteTagAdapter.setCurrentTag(it)
-            }
-        })
+        streamVM.getAllTags().observe(viewLifecycleOwner, Observer { tagAdapter.setTags(it) })
+//        streamVM.getCurrentTag().observe(viewLifecycleOwner, Observer {
+//            if (it != null) {
+//                tagAdapter.setCurrentTag(it)
+//            }
+//        })
     }
 }

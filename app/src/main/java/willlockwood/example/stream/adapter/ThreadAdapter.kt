@@ -3,6 +3,7 @@ package willlockwood.example.stream.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import willlockwood.example.stream.R
@@ -25,10 +26,16 @@ class ThreadAdapter internal constructor(
     private var streams = emptyList<Stream>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+//        return when (viewType) {
+//            CellType.SINGLE_STREAM.ordinal -> StreamViewHolder(inflater.inflate(R.layout.row_stream_in_thread, parent, false))
+//            CellType.STACK.ordinal -> ThreadViewHolder(inflater.inflate(R.layout.row_stream_stack, parent, false))
+//            else -> StreamViewHolder(inflater.inflate(R.layout.row_stream_photos, parent, false))
+//        }
+
         return when (viewType) {
-            CellType.SINGLE_STREAM.ordinal -> StreamViewHolder(inflater.inflate(R.layout.row_stream_in_thread, parent, false))
-            CellType.STACK.ordinal -> ThreadViewHolder(inflater.inflate(R.layout.row_stream_stack, parent, false))
-            else -> StreamViewHolder(inflater.inflate(R.layout.row_stream_photos, parent, false))
+            CellType.SINGLE_STREAM.ordinal -> StreamViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_in_thread, parent, false))
+            CellType.STACK.ordinal -> ThreadViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_stack, parent, false))
+            else -> StreamViewHolder(DataBindingUtil.inflate(inflater, R.layout.row_stream_photos, parent, false))
         }
     }
 
